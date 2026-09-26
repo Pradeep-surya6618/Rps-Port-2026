@@ -1,0 +1,267 @@
+.stack {
+  position: relative;
+  overflow: clip;
+  padding: clamp(6rem, 14vh, 10rem) 0;
+  /* Black + green network */
+  background:
+    radial-gradient(45% 50% at 50% 55%, rgb(11 61 46 / 0.55) 0%, transparent 70%),
+    #020807;
+}
+
+.head {
+  display: grid;
+  justify-items: center;
+  text-align: center;
+}
+
+.title {
+  margin-top: 1.5rem;
+  font-size: var(--step-5);
+}
+
+.note {
+  margin-top: 1.25rem;
+  max-width: 44ch;
+  color: var(--muted);
+}
+
+/* ─── Constellation ─── */
+
+.stage {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  max-height: 78vh;
+  margin: clamp(2rem, 6vh, 4rem) auto 0;
+  width: 100%;
+}
+
+.lines {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.lines line {
+  stroke: rgb(53 255 138 / 0.16);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+  stroke-dasharray: 1;
+  transition:
+    stroke 0.4s var(--ease-out),
+    stroke-width 0.4s var(--ease-out),
+    filter 0.4s var(--ease-out);
+}
+
+.stage[data-active] .lines line {
+  stroke: rgb(53 255 138 / 0.07);
+}
+
+.lines line.lineOn,
+.stage[data-active] .lines line.lineOn {
+  stroke: var(--green-bright);
+  stroke-width: 1.5;
+  filter: drop-shadow(0 0 4px rgb(53 255 138 / 0.8));
+}
+
+.core {
+  position: absolute;
+  translate: -50% -50%;
+  display: grid;
+  place-items: center;
+  width: clamp(92px, 9vw, 130px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #2ad97c, #0d6b40 60%, #083a26);
+  box-shadow: 0 0 60px rgb(32 232 120 / 0.35);
+  font-family: var(--font-display);
+  font-size: clamp(0.72rem, 0.9vw, 0.9rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: 0.2em;
+  text-align: center;
+  text-transform: uppercase;
+  color: var(--black);
+}
+
+.coreRing {
+  position: absolute;
+  inset: -14px;
+  border-radius: 50%;
+  border: 1px dashed rgb(53 255 138 / 0.35);
+  animation: spin 40s linear infinite;
+  animation-play-state: paused;
+}
+
+.stage[data-inview] .coreRing {
+  animation-play-state: running;
+}
+
+@keyframes spin {
+  to { rotate: 360deg; }
+}
+
+.hub {
+  position: absolute;
+  translate: -50% -50%;
+  z-index: 2;
+  padding: 0.55rem 1.1rem;
+  border-radius: 999px;
+  border: 1px solid var(--border-strong);
+  background: rgb(4 17 12 / 0.9);
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--green-bright);
+  white-space: nowrap;
+  transition:
+    box-shadow 0.4s var(--ease-out),
+    background 0.4s var(--ease-out);
+}
+
+.hub.on {
+  background: rgb(11 61 46 / 0.95);
+  box-shadow: 0 0 30px rgb(32 232 120 / 0.4);
+}
+
+.skills {
+  display: contents;
+}
+
+.skill {
+  position: absolute;
+  z-index: 3;
+  margin: 0;
+  transform: translate(-50%, -50%);
+  transition: translate 0.6s var(--ease-out);
+}
+
+.skillInner {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.55rem 0.95rem 0.55rem 0.7rem;
+  border-radius: 999px;
+  border: 1px solid rgb(245 247 246 / 0.1);
+  background: rgb(6 20 15 / 0.85);
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #e3eae6;
+  white-space: nowrap;
+  animation: float 6s ease-in-out infinite alternate;
+  animation-delay: calc(var(--float-delay) * -1);
+  animation-play-state: paused;
+  transition:
+    scale 0.45s var(--ease-out),
+    border-color 0.45s var(--ease-out),
+    box-shadow 0.45s var(--ease-out),
+    background 0.45s var(--ease-out);
+}
+
+.stage[data-inview] .skillInner {
+  animation-play-state: running;
+}
+
+@keyframes float {
+  from { translate: 0 -4px; }
+  to { translate: 0 4px; }
+}
+
+.skill.on .skillInner {
+  scale: 1.14;
+  border-color: var(--green-bright);
+  background: rgb(11 61 46 / 0.95);
+  box-shadow: 0 0 34px rgb(32 232 120 / 0.45);
+}
+
+/* ─── Also working with ─── */
+
+.also {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem 1.5rem;
+  margin-top: clamp(2.5rem, 6vh, 4rem);
+}
+
+.alsoLabel {
+  font-size: var(--step--1);
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--dim);
+}
+
+.alsoList {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.alsoList li {
+  padding: 0.45rem 0.95rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  font-size: 0.82rem;
+  color: var(--muted);
+}
+
+/* ─── Small screens: grouped clusters instead of a network ─── */
+
+@media (max-width: 899.98px) {
+  .stage {
+    aspect-ratio: auto;
+    max-height: none;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+  }
+
+  .lines,
+  .core {
+    display: none;
+  }
+
+  .group {
+    display: grid;
+    align-content: start;
+    gap: 0.9rem;
+    padding: 1.25rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-m);
+    background: rgb(6 24 18 / 0.45);
+  }
+
+  .hub {
+    position: static;
+    translate: none;
+    justify-self: start;
+  }
+
+  .skills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .skill {
+    position: static;
+    transform: none;
+    translate: none !important;
+  }
+
+  .skillInner {
+    animation: none;
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 559.98px) {
+  .stage {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

@@ -1,0 +1,76 @@
+.trail,
+.cursor {
+  display: none;
+  pointer-events: none;
+}
+
+:global(.has-custom-cursor) .trail {
+  display: block;
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 9998;
+}
+
+:global(.has-custom-cursor) .cursor {
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 6px;
+  height: 6px;
+  z-index: 9999;
+  opacity: 0;
+  /* Centred with margins, not translate: GSAP drives x/y. */
+  margin: -3px 0 0 -3px;
+}
+
+/* The glowing core, jittering like live current. */
+.core {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: #d1fae5;
+  box-shadow:
+    0 0 8px #00ffaa,
+    0 0 16px #00ffaa,
+    0 0 24px #055e38;
+  animation: jitter 0.25s infinite alternate ease-in-out;
+}
+
+@keyframes jitter {
+  from { transform: scale(0.95); opacity: 0.85; }
+  to { transform: scale(1.15); opacity: 1; }
+}
+
+.label {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  translate: -50% -50%;
+  display: grid;
+  place-items: center;
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  background: rgb(2 8 7 / 0.55);
+  border: 1px solid rgb(53 255 138 / 0.55);
+  box-shadow: 0 0 30px rgb(32 232 120 / 0.35), inset 0 0 20px rgb(32 232 120 / 0.15);
+  backdrop-filter: blur(6px);
+  color: #f5f7f6;
+  font-family: var(--font-display);
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-align: center;
+  text-transform: uppercase;
+  line-height: 1.3;
+  padding: 0 14px;
+  scale: 0;
+  transition: scale 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.cursor[data-label="true"] .label {
+  scale: 1;
+}

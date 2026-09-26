@@ -1,0 +1,60 @@
+.footer {
+  background: #062017;
+  border-top: 1px solid var(--border);
+}
+
+.inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding-block: 2rem;
+}
+
+.name {
+  font-family: var(--font-display);
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+}
+
+.role {
+  margin-top: 0.25rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--green);
+}
+
+.social {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.icon {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  transition:
+    color 0.35s var(--ease-out),
+    box-shadow 0.35s var(--ease-out),
+    border-color 0.35s var(--ease-out);
+}
+
+.icon:hover,
+.icon:focus-visible {
+  color: var(--green-bright);
+  border-color: var(--border-strong);
+  box-shadow: 0 0 20px rgb(32 232 120 / 0.3);
+}
+
+.copy {
+  font-size: 0.8rem;
+  color: var(--dim);
+}

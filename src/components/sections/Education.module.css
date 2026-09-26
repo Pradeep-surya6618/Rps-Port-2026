@@ -1,0 +1,107 @@
+.education {
+  position: relative;
+  padding: clamp(6rem, 14vh, 10rem) 0;
+  background: #020807;
+  border-top: 1px solid rgb(53 255 138 / 0.08);
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 3fr) minmax(0, 6fr) minmax(0, 3fr);
+  gap: clamp(2rem, 4vw, 4rem);
+  align-items: start;
+}
+
+.degree {
+  font-family: var(--font-display);
+  font-size: clamp(4rem, 12vw, 11rem);
+  font-weight: 800;
+  line-height: 0.85;
+  letter-spacing: -0.06em;
+  color: transparent;
+  -webkit-text-stroke: 1.5px rgb(245 247 246 / 0.7);
+}
+
+.detail {
+  margin-top: 1.5rem;
+}
+
+.field {
+  font-family: var(--font-display);
+  font-size: var(--step-3);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  max-width: 20ch;
+}
+
+.school {
+  margin-top: 0.9rem;
+  color: var(--muted);
+}
+
+.meta {
+  display: flex;
+  gap: 3rem;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+}
+
+.meta dt,
+.certsTitle {
+  font-size: var(--step--2);
+  font-weight: 500;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--green);
+}
+
+.meta dd {
+  margin-top: 0.4rem;
+  font-family: var(--font-display);
+  font-size: var(--step-2);
+  font-weight: 500;
+}
+
+.certs {
+  padding-top: 0.5rem;
+}
+
+.certList {
+  display: grid;
+  margin-top: 1rem;
+}
+
+.certList li {
+  display: grid;
+  gap: 0.2rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.certName {
+  font-weight: 500;
+}
+
+.certIssuer {
+  font-size: var(--step--1);
+  color: var(--muted);
+}
+
+@media (max-width: 1099.98px) {
+  .layout {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+
+  .layout > :first-child {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 699.98px) {
+  .layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

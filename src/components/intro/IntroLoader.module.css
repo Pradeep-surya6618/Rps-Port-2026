@@ -1,0 +1,171 @@
+.intro {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: radial-gradient(circle at 50% 45%, #06190e 0%, #020807 70%, #010402 100%);
+}
+
+.stage {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+}
+
+/* Breathing ambient light, as in the reference intro. */
+.stage::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 50% 35%, rgb(0 255 136 / 0.12) 0%, transparent 60%),
+    radial-gradient(circle at 50% 85%, rgb(5 94 56 / 0.2) 0%, transparent 70%);
+  animation: breathe 8s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+
+@keyframes breathe {
+  from { opacity: 0.55; transform: scale(1); }
+  to { opacity: 1; transform: scale(1.08); }
+}
+
+.flash {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  background: radial-gradient(circle, rgb(0 255 136 / 0.22) 0%, rgb(5 46 22 / 0.08) 60%, transparent 85%);
+  mix-blend-mode: screen;
+  pointer-events: none;
+}
+
+.mark {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  padding: 2rem 2.5rem 2.75rem;
+  border: 0;
+  background: none;
+  color: inherit;
+  cursor: pointer;
+  perspective: 900px;
+  transform-origin: center;
+  filter: drop-shadow(0 0 28px rgb(0 255 136 / 0.28)) drop-shadow(0 16px 30px rgb(0 0 0 / 0.95));
+  will-change: transform, opacity, filter;
+}
+
+.mark:focus-visible {
+  outline: 1px solid rgb(53 255 138 / 0.6);
+  outline-offset: 6px;
+  border-radius: 24px;
+}
+
+.first {
+  display: flex;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(3.25rem, 13vw, 10.5rem);
+  line-height: 0.9;
+  letter-spacing: -0.02em;
+}
+
+/* Forged-metal letters: cool steel with a green cast, lit from above. */
+.letter {
+  display: inline-block;
+  padding: 0 0.08em;
+  margin: 0 -0.08em;
+  background:
+    linear-gradient(
+      178deg,
+      #f4faf6 0%,
+      #b9c9c0 30%,
+      #5e7168 49%,
+      #2e3d36 51%,
+      #8fa399 72%,
+      #d9e5de 100%
+    );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-stroke: 1px rgb(180 255 214 / 0.18);
+  transform-origin: 50% 100%;
+  opacity: 0;
+}
+
+.script {
+  position: absolute;
+  right: 0.5rem;
+  bottom: -0.35rem;
+  font-family: var(--font-script);
+  font-size: clamp(3rem, 10vw, 7.5rem);
+  line-height: 1;
+  transform: rotate(-7deg);
+  background: linear-gradient(180deg, #b8ffd6 0%, #35ff8a 40%, #0f9d55 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 0 18px rgb(53 255 138 / 0.55));
+  padding: 0.2em 0.45em 0.3em 0.4em;
+  margin: -0.2em -0.05em -0.2em 0;
+  opacity: 0;
+}
+
+.line {
+  position: absolute;
+  left: 8%;
+  right: 8%;
+  bottom: 0.75rem;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #35ff8a 20%, #b8ffd6 50%, #35ff8a 80%, transparent);
+  box-shadow: 0 0 12px rgb(53 255 138 / 0.8);
+  transform: scaleX(0);
+  opacity: 0;
+}
+
+.hint {
+  position: absolute;
+  bottom: 2.5rem;
+  left: 0;
+  right: 0;
+  margin: 0;
+  text-align: center;
+  color: rgb(77 255 116 / 0.75);
+  font-size: 0.65rem;
+  font-weight: 300;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  text-shadow: 0 0 10px rgb(0 255 136 / 0.5);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.hint::after {
+  content: "";
+  display: block;
+  width: 1px;
+  height: 22px;
+  margin: 0.9rem auto 0;
+  background: linear-gradient(#35ff8a, transparent);
+  animation: hintPulse 2.4s ease-in-out infinite alternate;
+}
+
+@keyframes hintPulse {
+  from { opacity: 0.3; transform: translateY(0); }
+  to { opacity: 1; transform: translateY(6px); }
+}
+
+.bolts,
+.shader {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100dvh;
+  pointer-events: none;
+}
+
+.bolts {
+  z-index: 2;
+}
+
+.shader {
+  z-index: 3;
+}

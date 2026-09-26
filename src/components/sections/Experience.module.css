@@ -1,0 +1,234 @@
+.experience {
+  position: relative;
+  overflow: clip;
+  padding: clamp(6rem, 14vh, 10rem) 0;
+  background: linear-gradient(to bottom, #030c09 0%, #020807 30%, #020807 80%, #03100b 100%);
+}
+
+/* Dark technical environment: a fine grid fading in from the edges. */
+.gridBg {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgb(53 255 138 / 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(53 255 138 / 0.045) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse 70% 60% at 70% 50%, #000, transparent 80%);
+  pointer-events: none;
+}
+
+.year {
+  position: absolute;
+  right: -3vw;
+  top: 12%;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 26vw;
+  line-height: 0.8;
+  letter-spacing: -0.06em;
+  color: transparent;
+  -webkit-text-stroke: 1px rgb(53 255 138 / 0.08);
+  pointer-events: none;
+  user-select: none;
+}
+
+.layout {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  gap: clamp(2rem, 6vw, 7rem);
+  align-items: start;
+}
+
+.head {
+  position: sticky;
+  top: calc(var(--nav-h) + 3rem);
+}
+
+.title {
+  margin-top: 1.5rem;
+  font-size: clamp(2.6rem, 0.4rem + 4.6vw, 5.4rem);
+}
+
+.intro {
+  margin-top: 1.75rem;
+  max-width: 34ch;
+  color: var(--muted);
+  font-size: var(--step-1);
+}
+
+/* ─── Timeline ─── */
+
+.timeline {
+  position: relative;
+  display: grid;
+  gap: clamp(4rem, 10vh, 7rem);
+  padding: 0.5rem 0 2rem 3.5rem;
+}
+
+.rail {
+  position: absolute;
+  left: 11px;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: rgb(245 247 246 / 0.08);
+}
+
+.railFill {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, var(--green-bright), var(--green) 70%, rgb(32 232 120 / 0.2));
+  box-shadow: 0 0 10px rgb(32 232 120 / 0.6);
+  transform-origin: top;
+  will-change: transform;
+}
+
+.marker {
+  position: absolute;
+  left: 5px;
+  top: 0;
+  width: 13px;
+  height: 13px;
+  margin-top: -6px;
+  border-radius: 50%;
+  background: var(--green-bright);
+  box-shadow: 0 0 0 5px rgb(53 255 138 / 0.15), 0 0 24px var(--green-bright);
+  z-index: 2;
+  will-change: transform;
+}
+
+.item {
+  position: relative;
+}
+
+.node {
+  position: absolute;
+  left: calc(-3.5rem + 4px);
+  top: 0.9rem;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  border: 1px solid var(--border-strong);
+  background: var(--black);
+  transition:
+    background 0.5s var(--ease-out),
+    box-shadow 0.5s var(--ease-out);
+}
+
+.lit .node {
+  background: var(--green);
+  box-shadow: 0 0 18px var(--green);
+}
+
+.periodMask {
+  overflow: clip;
+}
+
+.period {
+  display: inline-flex;
+  align-items: center;
+  gap: 1rem;
+  font-family: var(--font-display);
+  font-size: var(--step-4);
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  line-height: 1.05;
+}
+
+.now {
+  padding: 0.3rem 0.7rem;
+  border-radius: 999px;
+  border: 1px solid var(--border-strong);
+  background: rgb(32 232 120 / 0.1);
+  color: var(--green-bright);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.company {
+  margin-top: 1rem;
+  font-family: var(--font-display);
+  font-size: var(--step--1);
+  font-weight: 600;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--green);
+}
+
+.place {
+  color: var(--dim);
+  letter-spacing: 0.2em;
+}
+
+.role {
+  margin-top: 0.5rem;
+  font-family: var(--font-display);
+  font-size: var(--step-2);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
+.points {
+  display: grid;
+  gap: 0.7rem;
+  margin-top: 1.5rem;
+  max-width: 60ch;
+  color: var(--muted);
+}
+
+.points li {
+  position: relative;
+  padding-left: 1.4rem;
+}
+
+.points li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.8em;
+  width: 8px;
+  height: 1px;
+  background: var(--green);
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
+}
+
+.chip {
+  padding: 0.4rem 0.85rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: rgb(6 24 18 / 0.6);
+  font-size: 0.78rem;
+  color: #cfd9d4;
+}
+
+@media (max-width: 899.98px) {
+  .layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .head {
+    position: static;
+  }
+
+  .timeline {
+    padding-left: 2.75rem;
+  }
+
+  .node {
+    left: calc(-2.75rem + 4px);
+  }
+
+  .year {
+    font-size: 42vw;
+    top: 4%;
+  }
+}

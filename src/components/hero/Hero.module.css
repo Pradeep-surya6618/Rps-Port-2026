@@ -1,0 +1,606 @@
+/* ═════════════ Scene ═════════════ */
+
+.hero {
+  position: relative;
+  height: 100svh;
+  min-height: 680px;
+  overflow: hidden;
+  isolation: isolate;
+  background: var(--black);
+}
+
+.background {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.base {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(70% 80% at 58% 45%, #0a2a1c 0%, #05150f 45%, #020807 80%),
+    var(--black);
+}
+
+.glowLayer {
+  position: absolute;
+  inset: 0;
+}
+
+.glow {
+  position: absolute;
+  width: 95vmax;
+  height: 95vmax;
+  /* Centred with offsets, not translate: GSAP moves this layer. */
+  left: calc(58% - 47.5vmax);
+  top: calc(42% - 47.5vmax);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgb(32 232 120 / 0.16) 0%, rgb(11 61 46 / 0.16) 30%, transparent 58%);
+}
+
+/* The photo sits on the right and dissolves into black toward the copy. */
+.mountains {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.mountainScroll {
+  position: absolute;
+  inset: -4% -3% -10%;
+}
+
+.mountainImg {
+  object-fit: cover;
+  object-position: 78% 40%;
+}
+
+.shapes {
+  position: absolute;
+  inset: 0;
+}
+
+.bandA,
+.bandB,
+.wedge {
+  position: absolute;
+  inset: 0;
+}
+
+.bandA {
+  clip-path: polygon(66% 0, 76% 0, 44% 100%, 34% 100%);
+  background: linear-gradient(200deg, rgb(32 232 120 / 0.1) 0%, rgb(11 61 46 / 0.1) 45%, transparent 80%);
+}
+
+.bandB {
+  clip-path: polygon(80% 0, 82.2% 0, 52.2% 100%, 50% 100%);
+  background: linear-gradient(200deg, rgb(53 255 138 / 0.14) 0%, rgb(53 255 138 / 0.03) 60%, transparent 90%);
+}
+
+.wedge {
+  clip-path: polygon(0 80%, 16% 86%, 26% 100%, 0 100%);
+  background: linear-gradient(160deg, #1fa860 0%, #0b5a35 55%, #06301d 100%);
+  opacity: 0.85;
+}
+
+.particles {
+  position: absolute;
+  inset: 0;
+}
+
+.grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgb(53 255 138 / 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(53 255 138 / 0.05) 1px, transparent 1px);
+  background-size: 72px 72px;
+  mask-image: radial-gradient(ellipse 55% 60% at 26% 42%, #000 0%, transparent 75%);
+}
+
+/* ═════════════ Portrait ═════════════ */
+
+.portraitWrap {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* Centred with negative margins, not translate: GSAP scales this layer. */
+.circleWrap {
+  --size: min(68svh, 46vw);
+  position: absolute;
+  left: 63%;
+  top: 48%;
+  width: var(--size);
+  height: var(--size);
+  margin: calc(var(--size) / -2) 0 0 calc(var(--size) / -2);
+}
+
+.circle {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 32%, #2ecb74 0%, #179550 28%, #0c5f36 58%, #07361f 84%, #05261a 100%);
+  box-shadow:
+    0 0 110px rgb(32 232 120 / 0.16),
+    inset -40px -50px 110px rgb(2 8 7 / 0.6);
+}
+
+.circleRing {
+  position: absolute;
+  inset: -22px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+}
+
+/* Upper-body cut, cropped at the hand: it stands on the bottom edge of the hero. */
+.portraitDepth {
+  position: absolute;
+  left: 59%;
+  bottom: 0;
+  height: min(82svh, 860px);
+  aspect-ratio: 1083 / 1183;
+  translate: -50% 0;
+}
+
+.portraitIn {
+  width: 100%;
+  height: 100%;
+}
+
+.portrait {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: top center;
+  /* Rim light from the green disc, and a shadow that seats him in the scene. */
+  filter:
+    drop-shadow(0 0 1px rgb(140 255 190 / 0.3))
+    drop-shadow(14px -4px 28px rgb(32 232 120 / 0.22))
+    drop-shadow(-24px 30px 40px rgb(0 0 0 / 0.6));
+  mask-image: linear-gradient(to bottom, #000 84%, transparent 100%);
+}
+
+.haze {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 18svh;
+  background: linear-gradient(to top, #020807 8%, rgb(2 8 7 / 0.72) 42%, transparent);
+}
+
+/* ═════════════ Copy ═════════════ */
+
+.content {
+  position: absolute;
+  z-index: 4;
+  left: var(--gutter);
+  top: calc(var(--nav-h) + 3svh);
+  bottom: 8svh;
+  width: min(52vw, 760px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.name {
+  display: grid;
+  font-weight: inherit;
+}
+
+.first {
+  display: flex;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(3.4rem, 8.4vw, 9.8rem);
+  line-height: 0.86;
+  letter-spacing: -0.045em;
+}
+
+.firstMask {
+  display: inline-block;
+  overflow: clip;
+  overflow-clip-margin: 0.1em;
+  padding-top: 0.06em;
+}
+
+/* Padding gives the gradient room to paint glyph edges that overhang the
+   tight letter spacing; the equal negative margin keeps the spacing. */
+.firstLetter {
+  display: inline-block;
+  padding: 0 0.08em;
+  margin: 0 -0.08em;
+  background: linear-gradient(180deg, #ffffff 0%, #dfe8e3 55%, #9fb2a8 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.last {
+  justify-self: start;
+  /* Generous padding: the script's S swash and y tail reach outside the
+     glyph box, and background-clip:text only paints inside the padding box. */
+  margin: -0.48em -0.15em -0.2em 0.8em;
+  padding: 0.2em 0.45em 0.32em 0.4em;
+  font-family: var(--font-script);
+  font-size: clamp(3.4rem, 7.6vw, 8.8rem);
+  line-height: 1;
+  rotate: -5deg;
+  background: linear-gradient(180deg, #c6ffe0 0%, #35ff8a 45%, #14a35c 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 0 22px rgb(53 255 138 / 0.35));
+}
+
+.meta {
+  margin-top: clamp(0.5rem, 2svh, 1.5rem);
+}
+
+.role {
+  font-family: var(--font-display);
+  font-size: clamp(0.95rem, 0.7rem + 0.6vw, 1.35rem);
+  font-weight: 500;
+  letter-spacing: 0.46em;
+  text-transform: uppercase;
+  color: #dfe7e3;
+}
+
+.statement {
+  margin-top: 0.9rem;
+  max-width: 34ch;
+  color: var(--muted);
+  font-size: clamp(0.95rem, 0.85rem + 0.25vw, 1.1rem);
+  line-height: 1.6;
+}
+
+.ctas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: clamp(1rem, 3svh, 2rem);
+}
+
+/* ═════════════ Right rail ═════════════ */
+
+.rail {
+  position: absolute;
+  z-index: 4;
+  right: calc(var(--gutter) + 8px);
+  top: 50%;
+  translate: 0 -54%;
+  display: grid;
+  gap: clamp(1.6rem, 5svh, 3rem);
+}
+
+.railItem {
+  display: grid;
+  grid-template-columns: 32px 1px auto;
+  align-items: center;
+  gap: 1.1rem;
+  color: #d6dfdb;
+}
+
+.railIcon {
+  color: #e6ede9;
+  transition:
+    color 0.4s var(--ease-out),
+    filter 0.4s var(--ease-out),
+    translate 0.5s var(--ease-out),
+    rotate 0.5s var(--ease-out);
+}
+
+.railRule {
+  align-self: stretch;
+  min-height: 46px;
+  background: linear-gradient(to bottom, transparent, var(--green) 30%, var(--green) 70%, transparent);
+  transition: box-shadow 0.4s var(--ease-out);
+}
+
+.railText {
+  display: grid;
+  font-family: var(--font-display);
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  line-height: 1.75;
+  text-transform: uppercase;
+}
+
+.railItem:hover .railIcon {
+  color: var(--green-bright);
+  filter: drop-shadow(0 0 10px rgb(53 255 138 / 0.7));
+  translate: -4px 0;
+  rotate: -4deg;
+}
+
+.railItem:hover .railRule {
+  box-shadow: 0 0 12px var(--green);
+}
+
+/* ═════════════ Social + scroll cue ═════════════ */
+
+.social {
+  position: absolute;
+  z-index: 4;
+  right: calc(var(--gutter) + 8px);
+  /* Level with the scroll cue, clear of the portrait's forearm. */
+  bottom: 2.4svh;
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.socialIcons {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.socialIcon {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: rgb(2 8 7 / 0.45);
+  color: var(--white);
+  transition:
+    color 0.4s var(--ease-out),
+    border-color 0.4s var(--ease-out),
+    box-shadow 0.4s var(--ease-out),
+    background 0.4s var(--ease-out);
+}
+
+.socialIcon:hover,
+.socialIcon:focus-visible {
+  color: var(--green-bright);
+  border-color: var(--border-strong);
+  background: radial-gradient(circle, rgb(32 232 120 / 0.22), rgb(2 8 7 / 0.6) 70%);
+  box-shadow: 0 0 26px rgb(32 232 120 / 0.35);
+}
+
+.socialIcon svg {
+  transition: transform 0.4s var(--ease-out), filter 0.4s var(--ease-out);
+}
+
+.socialIcon:hover svg {
+  transform: scale(1.1);
+  filter: drop-shadow(0 0 6px rgb(53 255 138 / 0.8));
+}
+
+.socialRule {
+  width: 1px;
+  height: 36px;
+  background: var(--border-strong);
+}
+
+.connect {
+  position: relative;
+  font-family: var(--font-display);
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  padding-block: 0.4rem;
+}
+
+.connect::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0.4em;
+  bottom: 0;
+  height: 1px;
+  background: var(--green);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.5s var(--ease-out);
+}
+
+.connect:hover::after,
+.connect:focus-visible::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+.scrollCue {
+  position: absolute;
+  z-index: 4;
+  left: var(--gutter);
+  bottom: 3.2svh;
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  font-size: 0.68rem;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--dim);
+}
+
+.scrollLine {
+  position: relative;
+  width: 44px;
+  height: 1px;
+  overflow: hidden;
+  background: rgb(245 247 246 / 0.12);
+}
+
+.scrollLine::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--green);
+  animation: cue 2.4s var(--ease-out) infinite;
+}
+
+@keyframes cue {
+  0% { transform: translateX(-100%); }
+  60%,
+  100% { transform: translateX(100%); }
+}
+
+.veil {
+  position: absolute;
+  inset: 0;
+  z-index: 6;
+  opacity: 0;
+  pointer-events: none;
+  background: linear-gradient(to bottom, rgb(3 14 10 / 0.55), #04110c 70%);
+}
+
+/* Only the big layers the pinned scroll moves get their own GPU layer, so
+   they are moved rather than re-rasterised each frame. Promoting everything
+   costs more than it saves. */
+.mountainScroll,
+.shapes,
+.circleWrap,
+.portraitWrap {
+  will-change: transform;
+}
+
+/* The copy slides and fades on the same timeline. GSAP writes 2D translate()
+   there, so without its own layer the name (with its glow filter) repaints a
+   huge area every frame. These are small, so the extra layers are cheap. */
+.name,
+.meta,
+.railItem {
+  will-change: transform, opacity;
+}
+
+/* ═════════════ Tablet: recompose ═════════════ */
+
+@media (max-width: 1199.98px) {
+  /* The portrait's arm fills the lower right here; Contact carries these links. */
+  .rail,
+  .social {
+    display: none;
+  }
+
+  .content {
+    width: min(64vw, 640px);
+  }
+
+  .first {
+    font-size: clamp(3.4rem, 10.5vw, 7.5rem);
+  }
+
+  .last {
+    font-size: clamp(3.2rem, 9vw, 6.5rem);
+  }
+
+  .circleWrap {
+    --size: min(56svh, 52vw);
+    left: 72%;
+    top: 52%;
+  }
+
+  .portraitDepth {
+    left: 70%;
+    height: min(66svh, 62vw);
+  }
+
+  .grid {
+    mask-image: radial-gradient(ellipse 70% 60% at 30% 45%, #000 0%, transparent 75%);
+  }
+}
+
+/* ═════════════ Mobile: a dedicated stacked layout ═════════════ */
+
+@media (max-width: 767.98px) {
+  .hero {
+    height: auto;
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .content {
+    display: contents;
+  }
+
+  .name {
+    order: 1;
+    position: relative;
+    z-index: 4;
+    padding: calc(var(--nav-h) + 1.25rem) var(--gutter) 0;
+  }
+
+  .first {
+    font-size: 17.5vw;
+  }
+
+  .last {
+    font-size: 15vw;
+    margin-left: 1.1em;
+  }
+
+  .portraitWrap {
+    order: 2;
+    position: relative;
+    inset: auto;
+    height: calc(min(92vw, 440px) * 1183 / 1083);
+    margin-top: -1.5rem;
+  }
+
+  .circleWrap {
+    --size: min(78vw, 46svh);
+    left: 52%;
+    top: 46%;
+  }
+
+  .portraitDepth {
+    left: 50%;
+    bottom: 0;
+    width: min(92vw, 440px);
+    height: auto;
+  }
+
+  .portrait {
+    mask-image: linear-gradient(to bottom, #000 70%, transparent 98%);
+  }
+
+  /* Carry the haze past the portrait so the copy below sits on dark ground. */
+  .haze {
+    bottom: -70svh;
+    height: calc(45% + 70svh);
+    background: linear-gradient(to bottom, transparent 0%, rgb(2 8 7 / 0.8) 30%, #020807 55%, rgb(2 8 7 / 0.9) 85%, transparent 100%);
+  }
+
+  .meta {
+    order: 3;
+    position: relative;
+    z-index: 4;
+    margin-top: -3.5rem;
+    padding: 0 var(--gutter) 3rem;
+  }
+
+  .role {
+    letter-spacing: 0.32em;
+  }
+
+  .social,
+  .scrollCue {
+    display: none;
+  }
+
+  .bandB,
+  .grid {
+    display: none;
+  }
+
+  /* Portrait is centred on phones: keep the peaks behind it, fade the edges. */
+  .mountains {
+    mask-image: linear-gradient(to bottom, #000 40%, transparent 85%);
+  }
+
+  .mountainImg {
+    object-position: 72% 30%;
+  }
+}

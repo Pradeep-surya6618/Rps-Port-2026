@@ -1,0 +1,113 @@
+.philosophy {
+  position: relative;
+  height: 240vh;
+  background: linear-gradient(to bottom, #020807, #03110c 50%, #020807);
+}
+
+.sticky {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  overflow: hidden;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  padding-inline: var(--gutter);
+}
+
+.glow {
+  position: absolute;
+  width: 70vmax;
+  aspect-ratio: 1;
+  /* Centred with offsets, not translate: GSAP scales this layer. */
+  left: calc(50% - 35vmax);
+  top: calc(50% - 35vmax);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgb(32 232 120 / 0.18) 0%, rgb(11 61 46 / 0.2) 35%, transparent 65%);
+  pointer-events: none;
+}
+
+.glyph {
+  position: absolute;
+  right: 8vw;
+  top: 14vh;
+  font-family: var(--font-display);
+  font-size: clamp(4rem, 12vw, 12rem);
+  font-weight: 300;
+  color: rgb(53 255 138 / 0.07);
+  pointer-events: none;
+}
+
+.words {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(3rem, 11vw, 13rem);
+  line-height: 0.88;
+  letter-spacing: -0.055em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.line {
+  position: relative;
+  display: block;
+}
+
+.outline {
+  display: block;
+  color: transparent;
+  -webkit-text-stroke: 1.5px rgb(53 255 138 / 0.35);
+}
+
+.fill {
+  position: absolute;
+  inset: 0;
+  color: var(--green-bright);
+  background: linear-gradient(180deg, #d6ffe8 0%, #35ff8a 45%, #16a85d 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 30px rgb(53 255 138 / 0.25));
+}
+
+.line + .line .fill {
+  background: linear-gradient(180deg, #ffffff 0%, #dfe8e3 55%, #9fb2a8 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  filter: none;
+}
+
+.text {
+  position: relative;
+  max-width: 46ch;
+  margin-top: clamp(2rem, 6vh, 3.5rem);
+  text-align: center;
+  color: var(--muted);
+  font-size: var(--step-1);
+  line-height: 1.6;
+}
+
+@media (max-width: 767.98px) {
+  .philosophy {
+    height: 180vh;
+  }
+
+  .words {
+    font-size: 12.5vw;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .philosophy {
+    height: auto;
+  }
+
+  .sticky {
+    position: relative;
+    height: auto;
+    padding-block: 8rem;
+  }
+}
