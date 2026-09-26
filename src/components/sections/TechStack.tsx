@@ -8,7 +8,7 @@ export function TechStack() {
   const placed = placeSkills(skillGroups);
 
   return (
-    <section id="stack" className={styles.stack} aria-label="The stack">
+    <section id="stack" className={styles.stack} data-accent="cyan" aria-label="The stack">
       <div className={`container ${styles.head}`}>
         <p className="eyebrow">Toolkit</p>
         <RevealText as="h2" lines={["The stack"]} className={`display ${styles.title}`} />

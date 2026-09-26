@@ -8,9 +8,17 @@
   --white: #f5f7f6;
   --muted: #aab5b0;
   --dim: #6f7c76;
-  --border: rgb(53 255 138 / 0.15);
-  --border-strong: rgb(53 255 138 / 0.35);
   --glass: rgb(6 24 18 / 0.45);
+
+  /* Section accent. Green by default (hero, nav, footer); sections switch it
+     with data-accent="…" (see "Section themes" below). */
+  --accent: #20e878;
+  --accent-bright: #35ff8a;
+  --accent-rgb: 32 232 120;
+  --accent-bright-rgb: 53 255 138;
+  --accent-deep-rgb: 11 61 46;
+  --accent-soft: #c6ffe0;
+  --accent-dark: #16a85d;
 
   /* Type scale (roughly a 1.25 ratio at body, opening up for display) */
   --step--2: 0.694rem;
@@ -194,8 +202,8 @@ button {
   content: "";
   width: 36px;
   height: 1px;
-  background: var(--green);
-  box-shadow: 0 0 8px var(--green);
+  background: var(--accent);
+  box-shadow: 0 0 8px var(--accent);
 }
 
 .display {
@@ -219,6 +227,77 @@ button {
 .word {
   display: inline-block;
   will-change: transform;
+}
+
+/* ─── Section themes ───
+   Each section sets data-accent; everything inside that uses the accent
+   tokens (and --border / --border-strong) follows. The borders are
+   redeclared here so they resolve against the section's own accent. */
+
+:root,
+[data-accent] {
+  --border: rgb(var(--accent-bright-rgb) / 0.15);
+  --border-strong: rgb(var(--accent-bright-rgb) / 0.35);
+}
+
+[data-accent="rose"] {
+  --accent: #f43f5e;
+  --accent-bright: #fb7185;
+  --accent-rgb: 244 63 94;
+  --accent-bright-rgb: 251 113 133;
+  --accent-deep-rgb: 76 16 30;
+  --accent-soft: #ffd5dc;
+  --accent-dark: #c81e44;
+}
+
+[data-accent="violet"] {
+  --accent: #8b5cf6;
+  --accent-bright: #a78bfa;
+  --accent-rgb: 139 92 246;
+  --accent-bright-rgb: 167 139 250;
+  --accent-deep-rgb: 44 26 88;
+  --accent-soft: #e4d9ff;
+  --accent-dark: #6d3fd6;
+}
+
+[data-accent="gold"] {
+  --accent: #eab308;
+  --accent-bright: #facc15;
+  --accent-rgb: 234 179 8;
+  --accent-bright-rgb: 250 204 21;
+  --accent-deep-rgb: 70 54 6;
+  --accent-soft: #fef3b8;
+  --accent-dark: #b48906;
+}
+
+[data-accent="cyan"] {
+  --accent: #06b6d4;
+  --accent-bright: #22d3ee;
+  --accent-rgb: 6 182 212;
+  --accent-bright-rgb: 34 211 238;
+  --accent-deep-rgb: 6 52 64;
+  --accent-soft: #cffafe;
+  --accent-dark: #0e8fa6;
+}
+
+[data-accent="pink"] {
+  --accent: #e1306c;
+  --accent-bright: #ff5fa2;
+  --accent-rgb: 225 48 108;
+  --accent-bright-rgb: 255 95 162;
+  --accent-deep-rgb: 72 14 44;
+  --accent-soft: #ffd3e6;
+  --accent-dark: #b01f55;
+}
+
+[data-accent="blue"] {
+  --accent: #3b82f6;
+  --accent-bright: #60a5fa;
+  --accent-rgb: 59 130 246;
+  --accent-bright-rgb: 96 165 250;
+  --accent-deep-rgb: 14 36 82;
+  --accent-soft: #d6e6ff;
+  --accent-dark: #1d5fd6;
 }
 
 @media (prefers-reduced-motion: reduce) {

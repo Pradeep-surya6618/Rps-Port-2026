@@ -1,0 +1,522 @@
+/* Instagram's own palette: yellow → orange → pink → purple → blue. */
+.instagram {
+  --ig-yellow: #feda75;
+  --ig-orange: #fa7e1e;
+  --ig-pink: #d62976;
+  --ig-purple: #962fbf;
+  --ig-blue: #4f5bd5;
+  --ig-gradient: linear-gradient(45deg, var(--ig-yellow) 0%, var(--ig-orange) 25%, var(--ig-pink) 50%, var(--ig-purple) 75%, var(--ig-blue) 100%);
+  position: relative;
+  overflow: clip;
+  padding: clamp(6rem, 14vh, 10rem) 0 0;
+  background:
+    radial-gradient(45% 50% at 78% 38%, rgb(150 47 191 / 0.22) 0%, transparent 70%),
+    radial-gradient(40% 45% at 62% 70%, rgb(214 41 118 / 0.16) 0%, transparent 70%),
+    linear-gradient(to bottom, #020807, #0a0710 55%, #020807);
+}
+
+/* Giant outlined "@" drifting slowly behind the phone. */
+.at {
+  position: absolute;
+  right: -4vw;
+  top: 4%;
+  font-family: var(--font-display);
+  font-size: min(58vw, 46rem);
+  font-weight: 700;
+  line-height: 0.8;
+  color: transparent;
+  -webkit-text-stroke: 1px rgb(214 41 118 / 0.1);
+  pointer-events: none;
+  user-select: none;
+}
+
+.glow {
+  position: absolute;
+  width: 46rem;
+  height: 46rem;
+  right: calc(24% - 23rem);
+  top: calc(50% - 23rem);
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgb(214 41 118 / 0.2), rgb(79 91 213 / 0.08) 60%, transparent);
+  pointer-events: none;
+}
+
+.layout {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+  gap: clamp(2rem, 5vw, 6rem);
+  align-items: center;
+}
+
+/* ─── Copy ─── */
+
+.title {
+  margin-top: 1.5rem;
+  font-size: clamp(3rem, 0.6rem + 6.4vw, 7.6rem);
+}
+
+.titleAccent {
+  padding-left: 0.9em;
+  color: transparent;
+  -webkit-text-stroke: 1.5px #ff5fa2;
+}
+
+.stat {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  margin-top: 2.25rem;
+}
+
+.statValue {
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 1.6rem + 3vw, 4.8rem);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  font-variant-numeric: tabular-nums;
+  background: linear-gradient(90deg, var(--ig-yellow), var(--ig-orange) 30%, var(--ig-pink) 62%, var(--ig-purple));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  padding-right: 0.06em;
+}
+
+.statLabel {
+  max-width: 24ch;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.handle {
+  display: inline-block;
+  margin-top: 2rem;
+  font-family: var(--font-display);
+  font-size: var(--step-1);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--white);
+  background: var(--ig-gradient) no-repeat 0 100% / 0 1px;
+  transition: background-size 0.5s var(--ease-out), color 0.3s;
+  overflow-wrap: anywhere;
+}
+
+.handle:hover,
+.handle:focus-visible {
+  color: #ff7eb6;
+  background-size: 100% 1px;
+}
+
+.bio {
+  display: grid;
+  gap: 0.6rem;
+  margin-top: 1.1rem;
+}
+
+.bioLine {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: #d4ddd8;
+}
+
+.bioLine svg {
+  flex: none;
+  color: #ff7eb6;
+}
+
+.cta {
+  margin-top: 2.25rem;
+}
+
+/* ─── Stage: phone + floating chips ─── */
+
+.stage {
+  position: relative;
+  height: min(720px, 86vh);
+  min-height: 600px;
+  display: grid;
+  place-items: center;
+  perspective: 1400px;
+}
+
+.phoneScroll {
+  position: relative;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.phone {
+  position: relative;
+  display: block;
+  width: 300px;
+  height: 610px;
+  padding: 12px;
+  border-radius: 46px;
+  background: linear-gradient(145deg, #1c2a24, #0a120f 45%, #111c17);
+  box-shadow:
+    inset 0 0 0 1px rgb(245 247 246 / 0.12),
+    inset 0 0 0 3px #050a08,
+    0 40px 70px -30px rgb(0 0 0 / 0.8),
+    0 0 0 1px rgb(214 41 118 / 0.12),
+    0 30px 80px -30px rgb(150 47 191 / 0.45);
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.notch {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  width: 86px;
+  height: 22px;
+  margin-left: -43px;
+  border-radius: 999px;
+  background: #020403;
+  z-index: 2;
+}
+
+.screen {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  padding: 44px 16px 14px;
+  border-radius: 36px;
+  background:
+    radial-gradient(120% 60% at 50% 0%, rgb(150 47 191 / 0.25), transparent 60%),
+    #050b09;
+  color: var(--white);
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.igTop {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.igHandle {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.profileRow {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 14px;
+}
+
+/* Instagram story ring. */
+.avatarRing {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 72px;
+  height: 72px;
+  padding: 3px;
+  border-radius: 50%;
+  background: conic-gradient(from 200deg, var(--ig-yellow), var(--ig-orange), var(--ig-pink), var(--ig-purple), var(--ig-blue), var(--ig-yellow));
+}
+
+.avatar {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 2px solid #050b09;
+  object-fit: cover;
+  /* The source is a circular badge with a ring baked in; zoom past it. */
+  scale: 1.18;
+}
+
+.counts {
+  display: flex;
+  flex: 1;
+  justify-content: space-between;
+  text-align: center;
+  font-size: 10px;
+  color: var(--muted);
+}
+
+.counts span {
+  display: grid;
+}
+
+.counts b {
+  font-size: 13px;
+  color: var(--white);
+}
+
+.igName {
+  margin-top: 12px;
+  font-weight: 600;
+  font-size: 12px;
+}
+
+.igCategory {
+  color: var(--dim);
+}
+
+.igBio,
+.igLink {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.igBio svg,
+.igLink svg {
+  flex: none;
+  color: #ff7eb6;
+}
+
+.igLink {
+  color: #8fd7ff;
+}
+
+.igButtons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  margin-top: 12px;
+}
+
+.igFollow,
+.igMessage {
+  padding: 7px 0;
+  border-radius: 8px;
+  text-align: center;
+  font-weight: 600;
+}
+
+.igFollow {
+  background: #0095f6;
+  color: #ffffff;
+}
+
+.igMessage {
+  background: rgb(245 247 246 / 0.1);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 3px;
+  margin-top: 12px;
+}
+
+.tile {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 1;
+  border-radius: 4px;
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 600;
+  color: #ffffff;
+  background: var(--tile-bg, linear-gradient(135deg, #3a1230, #12081a));
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.08);
+}
+
+/* Post tiles cycle through the palette, like a colourful grid of posts. */
+.tile:nth-child(5n + 1) { --tile-bg: linear-gradient(135deg, #fa7e1e, #d62976); }
+.tile:nth-child(5n + 2) { --tile-bg: linear-gradient(135deg, #962fbf, #4f5bd5); }
+.tile:nth-child(5n + 3) { --tile-bg: linear-gradient(135deg, #feda75, #fa7e1e); color: #2a1300; }
+.tile:nth-child(5n + 4) { --tile-bg: linear-gradient(135deg, #d62976, #962fbf); }
+.tile:nth-child(5n + 5) { --tile-bg: linear-gradient(135deg, #4f5bd5, #0095f6); }
+
+/* ─── Floating code chips (parallax wrapper + CSS float inside) ─── */
+
+.chip {
+  position: absolute;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.chipInner {
+  display: inline-block;
+  padding: 0.6rem 1rem;
+  border-radius: 999px;
+  border: 1px solid rgb(var(--chip-rgb, 214 41 118) / 0.5);
+  background: rgb(12 8 16 / 0.88);
+  box-shadow: 0 10px 30px -10px rgb(var(--chip-rgb, 214 41 118) / 0.5);
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--chip-color, #ff7eb6);
+  white-space: nowrap;
+  animation: bob 5s ease-in-out infinite alternate;
+  animation-play-state: paused;
+}
+
+.instagram[data-inview] .chipInner {
+  animation-play-state: running;
+}
+
+@keyframes bob {
+  from { translate: 0 -6px; }
+  to { translate: 0 6px; }
+}
+
+.chipA { top: 12%; left: 2%; }
+.chipB { top: 24%; right: 0; }
+.chipC { bottom: 24%; left: 0; }
+.chipD { bottom: 12%; right: 6%; }
+
+.chipA .chipInner { --chip-color: var(--ig-yellow); --chip-rgb: 254 218 117; }
+.chipB .chipInner { animation-delay: -1.5s; --chip-color: #ff5fa2; --chip-rgb: 214 41 118; }
+.chipC .chipInner { animation-delay: -3s; --chip-color: #ff9d52; --chip-rgb: 250 126 30; }
+.chipD .chipInner { animation-delay: -4.2s; --chip-color: #9aa3ff; --chip-rgb: 79 91 213; }
+
+/* ─── Likes drifting up ─── */
+
+.hearts {
+  position: absolute;
+  right: -34px;
+  bottom: 90px;
+  width: 40px;
+  height: 260px;
+  pointer-events: none;
+}
+
+.heart {
+  position: absolute;
+  bottom: 0;
+  left: calc(var(--d) * 5px);
+  color: #ff3040;
+  fill: #ff3040;
+  opacity: 0;
+  filter: drop-shadow(0 0 6px rgb(255 48 64 / 0.6));
+  animation: float-up 4.5s ease-out infinite;
+  animation-delay: calc(var(--d) * 0.9s);
+  animation-play-state: paused;
+}
+
+.instagram[data-inview] .heart {
+  animation-play-state: running;
+}
+
+@keyframes float-up {
+  0% { opacity: 0; transform: translate(0, 0) scale(0.6); }
+  15% { opacity: 1; }
+  100% { opacity: 0; transform: translate(-18px, -240px) scale(1.1); }
+}
+
+/* ─── Topic marquee ─── */
+
+.marquee {
+  position: relative;
+  margin-top: clamp(3rem, 8vh, 5rem);
+  padding: 1.4rem 0;
+  border-block: 1px solid rgb(214 41 118 / 0.2);
+  overflow: hidden;
+  mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
+}
+
+.track {
+  display: flex;
+  width: max-content;
+  animation: marquee 32s linear infinite;
+  animation-play-state: paused;
+  will-change: transform;
+}
+
+.instagram[data-inview] .track {
+  animation-play-state: running;
+}
+
+.trackGroup {
+  display: flex;
+  flex: none;
+}
+
+.topic {
+  padding: 0 2rem;
+  font-family: var(--font-display);
+  font-size: clamp(1.4rem, 1rem + 1.4vw, 2.4rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--topic, rgb(245 247 246 / 0.35));
+}
+
+/* Outlined tags cycle the palette; every third tag is filled with the gradient. */
+.topic:nth-child(5n + 1) { --topic: var(--ig-yellow); }
+.topic:nth-child(5n + 2) { --topic: var(--ig-orange); }
+.topic:nth-child(5n + 3) { --topic: #ff5fa2; }
+.topic:nth-child(5n + 4) { --topic: #b56be0; }
+.topic:nth-child(5n + 5) { --topic: #7d88ff; }
+
+.topic:nth-child(3n + 1) {
+  background: var(--ig-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-stroke: 0;
+}
+
+@keyframes marquee {
+  to { transform: translateX(-50%); }
+}
+
+/* ─── Responsive ─── */
+
+@media (max-width: 1023.98px) {
+  .layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .stage {
+    height: 680px;
+  }
+}
+
+@media (max-width: 559.98px) {
+  .stage {
+    height: 600px;
+    min-height: 0;
+  }
+
+  .phone {
+    width: 260px;
+    height: 540px;
+  }
+
+  .chipA,
+  .chipD {
+    display: none;
+  }
+
+  .hearts {
+    right: -16px;
+  }
+}
+
+/* Shared site pieces, recoloured for this section only. */
+.copy :global(.eyebrow)::before {
+  background: var(--ig-gradient);
+  box-shadow: 0 0 8px rgb(214 41 118 / 0.8);
+}
+
+.cta a {
+  border-color: rgb(214 41 118 / 0.55);
+  background: rgb(150 47 191 / 0.14);
+}
+
+.cta a::before {
+  background: var(--ig-gradient);
+}
+
+.cta a:hover,
+.cta a:focus-visible {
+  color: #ffffff;
+  border-color: transparent;
+  box-shadow: 0 0 32px rgb(214 41 118 / 0.45);
+}

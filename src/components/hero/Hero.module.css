@@ -19,7 +19,7 @@
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(70% 80% at 58% 45%, #0a2a1c 0%, #05150f 45%, #020807 80%),
+    radial-gradient(70% 80% at 58% 45%, color-mix(in srgb, rgb(var(--accent-deep-rgb)) 55%, #020807) 0%, color-mix(in srgb, rgb(var(--accent-deep-rgb)) 25%, #020807) 45%, #020807 80%),
     var(--black);
 }
 
@@ -36,7 +36,7 @@
   left: calc(58% - 47.5vmax);
   top: calc(42% - 47.5vmax);
   border-radius: 50%;
-  background: radial-gradient(circle, rgb(32 232 120 / 0.16) 0%, rgb(11 61 46 / 0.16) 30%, transparent 58%);
+  background: radial-gradient(circle, rgb(var(--accent-rgb) / 0.16) 0%, rgb(var(--accent-deep-rgb) / 0.16) 30%, transparent 58%);
 }
 
 /* The photo sits on the right and dissolves into black toward the copy. */
@@ -70,17 +70,17 @@
 
 .bandA {
   clip-path: polygon(66% 0, 76% 0, 44% 100%, 34% 100%);
-  background: linear-gradient(200deg, rgb(32 232 120 / 0.1) 0%, rgb(11 61 46 / 0.1) 45%, transparent 80%);
+  background: linear-gradient(200deg, rgb(var(--accent-rgb) / 0.1) 0%, rgb(var(--accent-deep-rgb) / 0.1) 45%, transparent 80%);
 }
 
 .bandB {
   clip-path: polygon(80% 0, 82.2% 0, 52.2% 100%, 50% 100%);
-  background: linear-gradient(200deg, rgb(53 255 138 / 0.14) 0%, rgb(53 255 138 / 0.03) 60%, transparent 90%);
+  background: linear-gradient(200deg, rgb(var(--accent-bright-rgb) / 0.14) 0%, rgb(var(--accent-bright-rgb) / 0.03) 60%, transparent 90%);
 }
 
 .wedge {
   clip-path: polygon(0 80%, 16% 86%, 26% 100%, 0 100%);
-  background: linear-gradient(160deg, #1fa860 0%, #0b5a35 55%, #06301d 100%);
+  background: linear-gradient(160deg, var(--accent-dark) 0%, color-mix(in srgb, rgb(var(--accent-deep-rgb)) 100%, #020807) 55%, color-mix(in srgb, rgb(var(--accent-deep-rgb)) 70%, #020807) 100%);
   opacity: 0.85;
 }
 
@@ -93,8 +93,8 @@
   position: absolute;
   inset: 0;
   background-image:
-    linear-gradient(rgb(53 255 138 / 0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgb(53 255 138 / 0.05) 1px, transparent 1px);
+    linear-gradient(rgb(var(--accent-bright-rgb) / 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(var(--accent-bright-rgb) / 0.05) 1px, transparent 1px);
   background-size: 72px 72px;
   mask-image: radial-gradient(ellipse 55% 60% at 26% 42%, #000 0%, transparent 75%);
 }
@@ -124,17 +124,76 @@
   width: 100%;
   height: 100%;
   border-radius: 50%;
-  background: radial-gradient(circle at 30% 32%, #2ecb74 0%, #179550 28%, #0c5f36 58%, #07361f 84%, #05261a 100%);
+  background: radial-gradient(circle at 30% 32%, color-mix(in srgb, var(--accent) 85%, #000) 0%, var(--accent-dark) 28%, color-mix(in srgb, var(--accent-dark) 55%, #000) 58%, color-mix(in srgb, rgb(var(--accent-deep-rgb)) 80%, #000) 84%, color-mix(in srgb, rgb(var(--accent-deep-rgb)) 60%, #000) 100%);
   box-shadow:
-    0 0 110px rgb(32 232 120 / 0.16),
+    0 0 110px rgb(var(--accent-rgb) / 0.16),
     inset -40px -50px 110px rgb(2 8 7 / 0.6);
 }
 
-.circleRing {
+/* Slow orbit around the disc: a dashed ring carrying one glowing "satellite". */
+.orbit {
   position: absolute;
-  inset: -22px;
+  inset: -26px;
   border-radius: 50%;
-  border: 1px solid var(--border);
+  border: 1px dashed rgb(var(--accent-bright-rgb) / 0.22);
+  animation: orbit 28s linear infinite;
+  will-change: transform;
+}
+
+.orbitDot {
+  position: absolute;
+  top: 50%;
+  left: -5px;
+  width: 9px;
+  height: 9px;
+  margin-top: -4.5px;
+  border-radius: 50%;
+  background: var(--accent-soft);
+  box-shadow: 0 0 10px var(--accent-bright), 0 0 22px rgb(var(--accent-bright-rgb) / 0.7);
+}
+
+@keyframes orbit {
+  to { transform: rotate(360deg); }
+}
+
+/* Soft energy behind the head that breathes slowly. The wrapper is faded in
+   by GSAP; the inner layer runs the CSS loop, so the two never collide. */
+.auraWrap {
+  position: absolute;
+  left: 18%;
+  right: 18%;
+  top: -4%;
+  height: 62%;
+  pointer-events: none;
+}
+
+.aura {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgb(var(--accent-bright-rgb) / 0.34), rgb(var(--accent-rgb) / 0.1) 55%, transparent);
+  animation: aura 5.5s ease-in-out infinite alternate;
+  will-change: transform, opacity;
+  pointer-events: none;
+}
+
+@keyframes aura {
+  from { opacity: 0.45; transform: scale(0.94); }
+  to { opacity: 1; transform: scale(1.06); }
+}
+
+/* Entrance scan line (driven by GSAP). */
+.scan {
+  position: absolute;
+  left: 4%;
+  right: 4%;
+  bottom: 0;
+  height: 2px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, transparent, var(--accent-bright) 18%, var(--accent-soft) 50%, var(--accent-bright) 82%, transparent);
+  box-shadow: 0 0 18px var(--accent-bright), 0 0 40px rgb(var(--accent-bright-rgb) / 0.6);
+  opacity: 0;
+  pointer-events: none;
 }
 
 /* Upper-body cut, cropped at the hand: it stands on the bottom edge of the hero. */
@@ -148,8 +207,11 @@
 }
 
 .portraitIn {
+  position: relative;
   width: 100%;
   height: 100%;
+  /* Floats on a loop: its own layer, so the filtered image is not repainted. */
+  will-change: transform;
 }
 
 .portrait {
@@ -157,10 +219,10 @@
   height: 100%;
   object-fit: contain;
   object-position: top center;
-  /* Rim light from the green disc, and a shadow that seats him in the scene. */
+  /* Rim light from the accent disc, and a shadow that seats him in the scene. */
   filter:
     drop-shadow(0 0 1px rgb(140 255 190 / 0.3))
-    drop-shadow(14px -4px 28px rgb(32 232 120 / 0.22))
+    drop-shadow(14px -4px 28px rgb(var(--accent-rgb) / 0.22))
     drop-shadow(-24px 30px 40px rgb(0 0 0 / 0.6));
   mask-image: linear-gradient(to bottom, #000 84%, transparent 100%);
 }
@@ -231,11 +293,11 @@
   font-size: clamp(3.4rem, 7.6vw, 8.8rem);
   line-height: 1;
   rotate: -5deg;
-  background: linear-gradient(180deg, #c6ffe0 0%, #35ff8a 45%, #14a35c 100%);
+  background: linear-gradient(180deg, var(--accent-soft) 0%, var(--accent-bright) 45%, var(--accent-dark) 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-  filter: drop-shadow(0 0 22px rgb(53 255 138 / 0.35));
+  filter: drop-shadow(0 0 22px rgb(var(--accent-bright-rgb) / 0.35));
 }
 
 .meta {
@@ -298,7 +360,7 @@
 .railRule {
   align-self: stretch;
   min-height: 46px;
-  background: linear-gradient(to bottom, transparent, var(--green) 30%, var(--green) 70%, transparent);
+  background: linear-gradient(to bottom, transparent, var(--accent) 30%, var(--accent) 70%, transparent);
   transition: box-shadow 0.4s var(--ease-out);
 }
 
@@ -313,14 +375,14 @@
 }
 
 .railItem:hover .railIcon {
-  color: var(--green-bright);
-  filter: drop-shadow(0 0 10px rgb(53 255 138 / 0.7));
+  color: var(--accent-bright);
+  filter: drop-shadow(0 0 10px rgb(var(--accent-bright-rgb) / 0.7));
   translate: -4px 0;
   rotate: -4deg;
 }
 
 .railItem:hover .railRule {
-  box-shadow: 0 0 12px var(--green);
+  box-shadow: 0 0 12px var(--accent);
 }
 
 /* ═════════════ Social + scroll cue ═════════════ */
@@ -341,16 +403,20 @@
   gap: 0.75rem;
 }
 
+/* Each icon wears its platform's colour; hover fills the button with it. */
 .socialIcon {
+  --brand: var(--white);
+  --brand-rgb: 245 247 246;
+  --brand-on: #ffffff;
   position: relative;
   display: grid;
   place-items: center;
   width: 46px;
   height: 46px;
   border-radius: 14px;
-  border: 1px solid var(--border);
-  background: rgb(2 8 7 / 0.45);
-  color: var(--white);
+  border: 1px solid rgb(var(--brand-rgb) / 0.3);
+  background: rgb(var(--brand-rgb) / 0.08);
+  color: var(--brand);
   transition:
     color 0.4s var(--ease-out),
     border-color 0.4s var(--ease-out),
@@ -358,12 +424,23 @@
     background 0.4s var(--ease-out);
 }
 
+.socialIcon[data-brand="linkedin"] {
+  --brand: #0a66c2;
+  --brand-rgb: 10 102 194;
+}
+
+.socialIcon[data-brand="github"] {
+  --brand: #f0f6fc;
+  --brand-rgb: 139 148 158;
+  --brand-on: #0d1117;
+}
+
 .socialIcon:hover,
 .socialIcon:focus-visible {
-  color: var(--green-bright);
-  border-color: var(--border-strong);
-  background: radial-gradient(circle, rgb(32 232 120 / 0.22), rgb(2 8 7 / 0.6) 70%);
-  box-shadow: 0 0 26px rgb(32 232 120 / 0.35);
+  color: var(--brand-on);
+  border-color: transparent;
+  background: var(--brand);
+  box-shadow: 0 8px 24px -6px rgb(var(--brand-rgb) / 0.7);
 }
 
 .socialIcon svg {
@@ -372,7 +449,6 @@
 
 .socialIcon:hover svg {
   transform: scale(1.1);
-  filter: drop-shadow(0 0 6px rgb(53 255 138 / 0.8));
 }
 
 .socialRule {
@@ -398,7 +474,7 @@
   right: 0.4em;
   bottom: 0;
   height: 1px;
-  background: var(--green);
+  background: var(--accent);
   transform: scaleX(0);
   transform-origin: right;
   transition: transform 0.5s var(--ease-out);
@@ -436,7 +512,7 @@
   content: "";
   position: absolute;
   inset: 0;
-  background: var(--green);
+  background: var(--accent);
   animation: cue 2.4s var(--ease-out) infinite;
 }
 
@@ -452,7 +528,7 @@
   z-index: 6;
   opacity: 0;
   pointer-events: none;
-  background: linear-gradient(to bottom, rgb(3 14 10 / 0.55), #04110c 70%);
+  background: linear-gradient(to bottom, rgb(3 10 14 / 0.55), color-mix(in srgb, rgb(var(--accent-deep-rgb)) 30%, #020807) 70%);
 }
 
 /* Only the big layers the pinned scroll moves get their own GPU layer, so

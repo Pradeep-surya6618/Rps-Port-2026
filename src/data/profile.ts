@@ -38,9 +38,37 @@ export const education = {
   school: "P.A. College of Engineering and Technology",
   city: "Pollachi",
   years: "2019 – 2023",
-  score: "CGPA 8.41",
+  score: "CGPA 8.87",
+  schooling: [
+    {
+      level: "HSC",
+      name: "Higher Secondary",
+      school: "John Bosco Matric. Higher Sec. School",
+      city: "Kovilpatti",
+      year: "2019",
+      score: "62.17%",
+    },
+    {
+      level: "SSLC",
+      name: "Secondary School",
+      school: "John Bosco Matric. Higher Sec. School",
+      city: "Kovilpatti",
+      year: "2017",
+      score: "85.80%",
+    },
+  ],
   certifications: [
-    { title: "Full Stack Web Development", issuer: "Innovate Technologies, Chennai" },
-    { title: "HTML, CSS & JavaScript", issuer: "LetsUpgrade" },
+    {
+      title: "Full Stack Web Development",
+      issuer: "Innovate Technologies, Chennai",
+      detail: "3-month course, studied 8 months",
+      year: "2024",
+    },
+    {
+      title: "HTML, CSS, JavaScript & React",
+      issuer: "LetsUpgrade",
+      detail: "Online course",
+      year: "2022",
+    },
   ],
 } as const;

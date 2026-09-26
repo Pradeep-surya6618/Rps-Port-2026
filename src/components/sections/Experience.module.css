@@ -2,7 +2,7 @@
   position: relative;
   overflow: clip;
   padding: clamp(6rem, 14vh, 10rem) 0;
-  background: linear-gradient(to bottom, #030c09 0%, #020807 30%, #020807 80%, #03100b 100%);
+  background: linear-gradient(to bottom, #020807 0%, color-mix(in srgb, rgb(var(--accent-deep-rgb)) 22%, #020807) 45%, #020807 100%);
 }
 
 /* Dark technical environment: a fine grid fading in from the edges. */
@@ -10,8 +10,8 @@
   position: absolute;
   inset: 0;
   background-image:
-    linear-gradient(rgb(53 255 138 / 0.045) 1px, transparent 1px),
-    linear-gradient(90deg, rgb(53 255 138 / 0.045) 1px, transparent 1px);
+    linear-gradient(rgb(var(--accent-bright-rgb) / 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(var(--accent-bright-rgb) / 0.045) 1px, transparent 1px);
   background-size: 48px 48px;
   mask-image: radial-gradient(ellipse 70% 60% at 70% 50%, #000, transparent 80%);
   pointer-events: none;
@@ -27,7 +27,7 @@
   line-height: 0.8;
   letter-spacing: -0.06em;
   color: transparent;
-  -webkit-text-stroke: 1px rgb(53 255 138 / 0.08);
+  -webkit-text-stroke: 1px rgb(var(--accent-bright-rgb) / 0.08);
   pointer-events: none;
   user-select: none;
 }
@@ -78,8 +78,8 @@
 .railFill {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to bottom, var(--green-bright), var(--green) 70%, rgb(32 232 120 / 0.2));
-  box-shadow: 0 0 10px rgb(32 232 120 / 0.6);
+  background: linear-gradient(to bottom, var(--accent-bright), var(--accent) 70%, rgb(var(--accent-rgb) / 0.2));
+  box-shadow: 0 0 10px rgb(var(--accent-rgb) / 0.6);
   transform-origin: top;
   will-change: transform;
 }
@@ -92,8 +92,8 @@
   height: 13px;
   margin-top: -6px;
   border-radius: 50%;
-  background: var(--green-bright);
-  box-shadow: 0 0 0 5px rgb(53 255 138 / 0.15), 0 0 24px var(--green-bright);
+  background: var(--accent-bright);
+  box-shadow: 0 0 0 5px rgb(var(--accent-bright-rgb) / 0.15), 0 0 24px var(--accent-bright);
   z-index: 2;
   will-change: transform;
 }
@@ -117,8 +117,8 @@
 }
 
 .lit .node {
-  background: var(--green);
-  box-shadow: 0 0 18px var(--green);
+  background: var(--accent);
+  box-shadow: 0 0 18px var(--accent);
 }
 
 .periodMask {
@@ -140,8 +140,8 @@
   padding: 0.3rem 0.7rem;
   border-radius: 999px;
   border: 1px solid var(--border-strong);
-  background: rgb(32 232 120 / 0.1);
-  color: var(--green-bright);
+  background: rgb(var(--accent-rgb) / 0.1);
+  color: var(--accent-bright);
   font-size: 0.7rem;
   font-weight: 600;
   letter-spacing: 0.2em;
@@ -155,7 +155,7 @@
   font-weight: 600;
   letter-spacing: 0.3em;
   text-transform: uppercase;
-  color: var(--green);
+  color: var(--accent);
 }
 
 .place {
@@ -191,7 +191,7 @@
   top: 0.8em;
   width: 8px;
   height: 1px;
-  background: var(--green);
+  background: var(--accent);
 }
 
 .chips {

@@ -2,11 +2,11 @@
   position: relative;
   overflow: clip;
   padding: clamp(4rem, 8vh, 7rem) 0 clamp(6rem, 16vh, 12rem);
-  /* Continues the hero's closing veil, then opens into a green atmosphere. */
+  /* Opens into the section's accent atmosphere, back to near-black at both ends. */
   background:
-    radial-gradient(70% 55% at 15% 20%, rgb(11 61 46 / 0.75) 0%, transparent 70%),
-    radial-gradient(50% 40% at 90% 85%, rgb(11 61 46 / 0.45) 0%, transparent 70%),
-    linear-gradient(to bottom, #030d0a 0%, #051710 40%, #030c09 100%);
+    radial-gradient(70% 55% at 15% 20%, rgb(var(--accent-deep-rgb) / 0.75) 0%, transparent 70%),
+    radial-gradient(50% 40% at 90% 85%, rgb(var(--accent-deep-rgb) / 0.45) 0%, transparent 70%),
+    linear-gradient(to bottom, #030d0a 0%, color-mix(in srgb, rgb(var(--accent-deep-rgb)) 40%, #020807) 40%, #020807 100%);
 }
 
 .orb {
@@ -16,7 +16,7 @@
   right: -12vw;
   top: 8%;
   border-radius: 50%;
-  background: radial-gradient(circle, rgb(32 232 120 / 0.2) 0%, transparent 65%);
+  background: radial-gradient(circle, rgb(var(--accent-rgb) / 0.2) 0%, transparent 65%);
   pointer-events: none;
 }
 
@@ -31,7 +31,7 @@
 
 .lines span {
   width: 1px;
-  background: linear-gradient(to bottom, transparent, rgb(53 255 138 / 0.12) 30%, rgb(53 255 138 / 0.12) 70%, transparent);
+  background: linear-gradient(to bottom, transparent, rgb(var(--accent-bright-rgb) / 0.12) 30%, rgb(var(--accent-bright-rgb) / 0.12) 70%, transparent);
 }
 
 .ghost {
@@ -45,7 +45,7 @@
   letter-spacing: -0.06em;
   text-transform: uppercase;
   color: transparent;
-  -webkit-text-stroke: 1px rgb(53 255 138 / 0.07);
+  -webkit-text-stroke: 1px rgb(var(--accent-bright-rgb) / 0.07);
   pointer-events: none;
   user-select: none;
 }
@@ -72,8 +72,8 @@
 
 .titleIndent {
   padding-left: 1.1em;
-  color: var(--green-bright);
-  text-shadow: 0 0 60px rgb(53 255 138 / 0.25);
+  color: var(--accent-bright);
+  text-shadow: 0 0 60px rgb(var(--accent-bright-rgb) / 0.25);
 }
 
 .photo {
@@ -91,7 +91,7 @@
   aspect-ratio: 3 / 4;
   border-radius: var(--radius-l);
   border: 1px solid var(--border);
-  box-shadow: 0 40px 80px rgb(0 0 0 / 0.45), 0 0 0 8px rgb(53 255 138 / 0.03);
+  box-shadow: 0 40px 80px rgb(0 0 0 / 0.45), 0 0 0 8px rgb(var(--accent-bright-rgb) / 0.03);
 }
 
 .photoImg {
@@ -114,8 +114,8 @@
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background: var(--green);
-  box-shadow: 0 0 10px var(--green);
+  background: var(--accent);
+  box-shadow: 0 0 10px var(--accent);
 }
 
 .copy {
@@ -164,7 +164,7 @@
   font-size: var(--step--2);
   letter-spacing: 0.28em;
   text-transform: uppercase;
-  color: var(--green);
+  color: var(--accent);
 }
 
 .fact dd {

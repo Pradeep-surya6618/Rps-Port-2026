@@ -56,7 +56,7 @@ function ProjectVisual({ project }: { project: Project }) {
 
 export function Projects() {
   return (
-    <section id="work" className={styles.projects} aria-labelledby="work-title">
+    <section id="work" className={styles.projects} data-accent="gold" aria-labelledby="work-title">
       <header className={`container ${styles.head}`}>
         <p className="eyebrow">Selected work</p>
         <RevealText as="h2" id="work-title" lines={["Selected", "work"]} className={`display ${styles.title}`} lineClassNames={[undefined, styles.titleIndent]} />

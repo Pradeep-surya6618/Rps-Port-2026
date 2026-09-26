@@ -1,5 +1,6 @@
 import { PillLink } from "@/components/ui/PillLink";
 import { profile } from "@/data/profile";
+import { brandAccentAttr } from "@/data/theme";
 import { HeroBackground } from "./HeroBackground";
 import { HeroInfoRail } from "./HeroInfoRail";
 import { HeroPortrait } from "./HeroPortrait";
@@ -11,7 +12,7 @@ export function Hero() {
   const first = profile.firstName.toUpperCase().split("");
 
   return (
-    <HeroScene className={styles.hero}>
+    <HeroScene className={styles.hero} accent={brandAccentAttr}>
       <HeroBackground />
 
       <HeroPortrait />

@@ -4,7 +4,7 @@
   padding: clamp(6rem, 14vh, 10rem) 0;
   /* Black + green network */
   background:
-    radial-gradient(45% 50% at 50% 55%, rgb(11 61 46 / 0.55) 0%, transparent 70%),
+    radial-gradient(45% 50% at 50% 55%, rgb(var(--accent-deep-rgb) / 0.55) 0%, transparent 70%),
     #020807;
 }
 
@@ -44,7 +44,7 @@
 }
 
 .lines line {
-  stroke: rgb(53 255 138 / 0.16);
+  stroke: rgb(var(--accent-bright-rgb) / 0.16);
   stroke-width: 1;
   vector-effect: non-scaling-stroke;
   stroke-dasharray: 1;
@@ -55,14 +55,14 @@
 }
 
 .stage[data-active] .lines line {
-  stroke: rgb(53 255 138 / 0.07);
+  stroke: rgb(var(--accent-bright-rgb) / 0.07);
 }
 
 .lines line.lineOn,
 .stage[data-active] .lines line.lineOn {
-  stroke: var(--green-bright);
+  stroke: var(--accent-bright);
   stroke-width: 1.5;
-  filter: drop-shadow(0 0 4px rgb(53 255 138 / 0.8));
+  filter: drop-shadow(0 0 4px rgb(var(--accent-bright-rgb) / 0.8));
 }
 
 .core {
@@ -73,8 +73,8 @@
   width: clamp(92px, 9vw, 130px);
   aspect-ratio: 1;
   border-radius: 50%;
-  background: radial-gradient(circle at 35% 30%, #2ad97c, #0d6b40 60%, #083a26);
-  box-shadow: 0 0 60px rgb(32 232 120 / 0.35);
+  background: radial-gradient(circle at 35% 30%, var(--accent-bright), var(--accent-dark) 60%, rgb(var(--accent-deep-rgb)));
+  box-shadow: 0 0 60px rgb(var(--accent-rgb) / 0.35);
   font-family: var(--font-display);
   font-size: clamp(0.72rem, 0.9vw, 0.9rem);
   font-weight: 700;
@@ -89,7 +89,7 @@
   position: absolute;
   inset: -14px;
   border-radius: 50%;
-  border: 1px dashed rgb(53 255 138 / 0.35);
+  border: 1px dashed rgb(var(--accent-bright-rgb) / 0.35);
   animation: spin 40s linear infinite;
   animation-play-state: paused;
 }
@@ -115,7 +115,7 @@
   font-weight: 600;
   letter-spacing: 0.28em;
   text-transform: uppercase;
-  color: var(--green-bright);
+  color: var(--accent-bright);
   white-space: nowrap;
   transition:
     box-shadow 0.4s var(--ease-out),
@@ -123,8 +123,8 @@
 }
 
 .hub.on {
-  background: rgb(11 61 46 / 0.95);
-  box-shadow: 0 0 30px rgb(32 232 120 / 0.4);
+  background: rgb(var(--accent-deep-rgb) / 0.95);
+  box-shadow: 0 0 30px rgb(var(--accent-rgb) / 0.4);
 }
 
 .skills {
@@ -172,9 +172,9 @@
 
 .skill.on .skillInner {
   scale: 1.14;
-  border-color: var(--green-bright);
-  background: rgb(11 61 46 / 0.95);
-  box-shadow: 0 0 34px rgb(32 232 120 / 0.45);
+  border-color: var(--accent-bright);
+  background: rgb(var(--accent-deep-rgb) / 0.95);
+  box-shadow: 0 0 34px rgb(var(--accent-rgb) / 0.45);
 }
 
 /* ─── Also working with ─── */

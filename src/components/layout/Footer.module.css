@@ -1,6 +1,6 @@
 .footer {
-  background: #062017;
-  border-top: 1px solid var(--border);
+  background: #000000;
+  border-top: 1px solid rgb(255 255 255 / 0.08);
 }
 
 .inner {
@@ -33,25 +33,57 @@
   gap: 0.5rem;
 }
 
+/* Each icon wears its platform's colour; hover fills the button with it. */
 .icon {
+  --brand: var(--green-bright);
+  --brand-rgb: 53 255 138;
+  --brand-fill: var(--brand);
+  --brand-on: #ffffff;
   display: grid;
   place-items: center;
   width: 40px;
   height: 40px;
   border-radius: 12px;
-  border: 1px solid var(--border);
-  color: var(--muted);
+  border: 1px solid rgb(var(--brand-rgb) / 0.3);
+  background: rgb(var(--brand-rgb) / 0.08);
+  color: var(--brand);
   transition:
     color 0.35s var(--ease-out),
+    background 0.35s var(--ease-out),
     box-shadow 0.35s var(--ease-out),
-    border-color 0.35s var(--ease-out);
+    border-color 0.35s var(--ease-out),
+    translate 0.35s var(--ease-out);
+}
+
+.icon[data-brand="email"] {
+  --brand: #ea4335;
+  --brand-rgb: 234 67 53;
+}
+
+.icon[data-brand="linkedin"] {
+  --brand: #0a66c2;
+  --brand-rgb: 10 102 194;
+}
+
+.icon[data-brand="github"] {
+  --brand: #f0f6fc;
+  --brand-rgb: 139 148 158;
+  --brand-on: #0d1117;
+}
+
+.icon[data-brand="instagram"] {
+  --brand: #e1306c;
+  --brand-rgb: 225 48 108;
+  --brand-fill: linear-gradient(45deg, #feda75, #fa7e1e 25%, #d62976 50%, #962fbf 75%, #4f5bd5);
 }
 
 .icon:hover,
 .icon:focus-visible {
-  color: var(--green-bright);
-  border-color: var(--border-strong);
-  box-shadow: 0 0 20px rgb(32 232 120 / 0.3);
+  color: var(--brand-on);
+  background: var(--brand-fill);
+  border-color: transparent;
+  box-shadow: 0 6px 20px -4px rgb(var(--brand-rgb) / 0.6);
+  translate: 0 -2px;
 }
 
 .copy {

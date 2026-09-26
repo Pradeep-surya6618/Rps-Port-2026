@@ -20,6 +20,7 @@ uniform float uProgress;
 uniform vec3 uColorA;
 uniform vec3 uColorB;
 uniform vec3 uColorC;
+uniform vec3 uGlow;
 varying vec2 vUv;
 
 float hash(vec2 p) { return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
@@ -62,7 +63,7 @@ void main() {
   color = mix(color, uColorC, sin(w * 6.28 + t * 0.5) * 0.5 + 0.5);
 
   float glow = 1.0 - smoothstep(0.0, 0.25, abs(pNorm - wipe));
-  color += glow * vec3(0.05, 0.95, 0.45);
+  color += glow * uGlow;
 
   gl_FragColor = vec4(color * alpha, alpha);
 }`;
@@ -93,7 +94,7 @@ export type MagicWipe = {
 /** Returns null when WebGL is unavailable; callers fall back to a CSS fade. */
 export function createMagicWipe(
   canvas: HTMLCanvasElement,
-  colors = { a: "#022e1b", b: "#00ff99", c: "#044d2d" },
+  colors: { a: string; b: string; c: string; glow?: readonly [number, number, number] } = { a: "#022e1b", b: "#00ff99", c: "#044d2d" },
 ): MagicWipe | null {
   const gl = canvas.getContext("webgl", { premultipliedAlpha: true, alpha: true, antialias: false });
   if (!gl) return null;
@@ -122,6 +123,7 @@ export function createMagicWipe(
   gl.uniform3fv(gl.getUniformLocation(program, "uColorA"), hexToRgb(colors.a));
   gl.uniform3fv(gl.getUniformLocation(program, "uColorB"), hexToRgb(colors.b));
   gl.uniform3fv(gl.getUniformLocation(program, "uColorC"), hexToRgb(colors.c));
+  gl.uniform3fv(gl.getUniformLocation(program, "uGlow"), colors.glow ?? [0.05, 0.95, 0.45]);
 
   gl.enable(gl.BLEND);
   gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);

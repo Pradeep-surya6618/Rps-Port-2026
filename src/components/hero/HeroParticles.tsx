@@ -17,6 +17,15 @@ export function HeroParticles() {
     const canvas = ref.current!;
     const ctx = canvas.getContext("2d")!;
     const reduced = window.matchMedia(MEDIA.reduced).matches;
+    // Dust takes the section's accent, lifted halfway toward white.
+    const [ar, ag, ab] = getComputedStyle(canvas)
+      .getPropertyValue("--accent-bright-rgb")
+      .trim()
+      .split(/\s+/)
+      .map(Number);
+    const tint = [ar, ag, ab].every(Number.isFinite)
+      ? [ar, ag, ab].map((c) => Math.round(c + (255 - c) * 0.5)).join(", ")
+      : "120, 255, 180";
     let motes: Mote[] = [];
     let w = 0;
     let h = 0;
@@ -57,7 +66,7 @@ export function HeroParticles() {
         const alpha = m.a * (0.65 + Math.sin(m.tw) * 0.35);
         ctx.beginPath();
         ctx.arc(m.x, m.y, m.r, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(120, 255, 180, ${alpha})`;
+        ctx.fillStyle = `rgba(${tint}, ${alpha})`;
         ctx.fill();
       }
     };

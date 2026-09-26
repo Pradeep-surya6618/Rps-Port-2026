@@ -5,6 +5,7 @@ import { gsap, ScrollTrigger, useGSAP } from "@/lib/animations/gsap";
 import { useSite } from "@/components/providers/SiteProvider";
 import { navigation, type SectionId } from "@/data/navigation";
 import { profile } from "@/data/profile";
+import { brandAccentAttr } from "@/data/theme";
 import styles from "./Navbar.module.css";
 
 export function Navbar() {
@@ -71,7 +72,11 @@ export function Navbar() {
   };
 
   return (
-    <header ref={root} className={`${styles.nav} ${scrolled ? styles.scrolled : ""} ${open ? styles.open : ""}`}>
+    <header
+      ref={root}
+      className={`${styles.nav} ${scrolled ? styles.scrolled : ""} ${open ? styles.open : ""}`}
+      data-accent={brandAccentAttr}
+    >
       <div className={styles.bar}>
         <a href="#top" className={styles.brand} onClick={(e) => go(e, "#top")}>
           <span className={styles.brandMark} aria-hidden="true" />

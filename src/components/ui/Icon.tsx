@@ -1,6 +1,7 @@
 import {
   siCss,
   siGit,
+  siGmail,
   siGithub,
   siHtml5,
   siInstagram,
@@ -30,6 +31,7 @@ const brands = {
   github: { path: siGithub.path, color: "#F5F7F6" },
   postman: { path: siPostman.path, color: "#FF6C37" },
   instagram: { path: siInstagram.path, color: "#F5F7F6" },
+  gmail: { path: siGmail.path, color: "#EA4335" },
 } satisfies Record<string, Glyph>;
 
 export type IconName =

@@ -43,22 +43,28 @@ export function drawBolt(
 
 type BoltStyle = { displace: number; branchProb: number; alpha?: number; width?: number };
 
-/** Glowing green core plus a white-hot inner pass: the two-stroke look of each strike. */
+/** Bolt colours: outer glow as "r, g, b", its shadow colour, and the hot inner core. */
+export type BoltColors = { rgb: string; glow: string; core: string };
+
+const GREEN_BOLT: BoltColors = { rgb: "0, 255, 170", glow: "#00ffaa", core: "209, 250, 229" };
+
+/** Glowing outer stroke plus a white-hot inner pass: the two-stroke look of each strike. */
 export function drawGlowingBolt(
   ctx: CanvasRenderingContext2D,
   from: { x: number; y: number },
   to: { x: number; y: number },
   { displace, branchProb, alpha = 1, width = 2.5 }: BoltStyle,
+  colors: BoltColors = GREEN_BOLT,
 ) {
   ctx.save();
   ctx.lineCap = "round";
-  ctx.strokeStyle = `rgba(0, 255, 170, ${alpha * 0.85})`;
-  ctx.shadowColor = "#00ffaa";
+  ctx.strokeStyle = `rgba(${colors.rgb}, ${alpha * 0.85})`;
+  ctx.shadowColor = colors.glow;
   ctx.shadowBlur = width > 2 ? 12 : 8;
   ctx.lineWidth = width;
   drawBolt(ctx, from.x, from.y, to.x, to.y, displace, branchProb);
 
-  ctx.strokeStyle = `rgba(209, 250, 229, ${alpha})`;
+  ctx.strokeStyle = `rgba(${colors.core}, ${alpha})`;
   ctx.lineWidth = Math.max(0.8, width * 0.48);
   ctx.shadowBlur = 2;
   drawBolt(ctx, from.x, from.y, to.x, to.y, displace, branchProb * 0.4);

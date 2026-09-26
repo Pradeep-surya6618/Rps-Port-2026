@@ -17,10 +17,11 @@ export function Footer() {
               <a
                 href={s.href}
                 className={styles.icon}
+                data-brand={s.id}
                 aria-label={s.id === "email" ? `Email ${profile.email}` : `${s.label} (opens in a new tab)`}
                 {...(s.id === "email" ? {} : { target: "_blank", rel: "noopener noreferrer" })}
               >
-                <Icon name={s.id} size={18} />
+                <Icon name={s.id === "email" ? "gmail" : s.id} size={18} />
               </a>
             </li>
           ))}

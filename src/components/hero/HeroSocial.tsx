@@ -12,7 +12,7 @@ export function HeroSocial() {
         {links.map((s) => (
           <li key={s.id}>
             <Magnetic strength={0.4}>
-              <a href={s.href} target="_blank" rel="noopener noreferrer" className={styles.socialIcon} aria-label={`${s.label} (opens in a new tab)`}>
+              <a href={s.href} target="_blank" rel="noopener noreferrer" className={styles.socialIcon} data-brand={s.id} aria-label={`${s.label} (opens in a new tab)`}>
                 <Icon name={s.id === "linkedin" ? "linkedin" : "github"} size={22} />
               </a>
             </Magnetic>

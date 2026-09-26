@@ -1,5 +1,7 @@
 import Image from "next/image";
-import mountainImage from "../../../public/images/hero-mountains-fade.png";
+import mountainsGreen from "../../../public/images/hero-mountains-fade.png";
+import mountainsBlue from "../../../public/images/hero-mountains-fade-blue.png";
+import { brandAccent } from "@/data/theme";
 import { HeroParticles } from "./HeroParticles";
 import styles from "./Hero.module.css";
 
@@ -23,7 +25,7 @@ export function HeroBackground() {
       <div className={styles.mountains} data-hero="mountains">
         <div className={styles.mountainScroll} data-ridge="far" data-depth="0.3">
           <Image
-            src={mountainImage}
+            src={brandAccent === "blue" ? mountainsBlue : mountainsGreen}
             alt=""
             fill
             sizes="100vw"

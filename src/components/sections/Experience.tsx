@@ -7,7 +7,7 @@ import styles from "./Experience.module.css";
 
 export function Experience() {
   return (
-    <section id="experience" className={styles.experience} aria-label="Experience">
+    <section id="experience" className={styles.experience} data-accent="violet" aria-label="Experience">
       <div className={styles.gridBg} aria-hidden="true" />
       <Parallax speed={0.3} className={styles.year} aria-hidden>
         2025

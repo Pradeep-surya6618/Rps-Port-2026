@@ -4,7 +4,7 @@
   padding: clamp(7rem, 16vh, 12rem) 0 clamp(5rem, 12vh, 8rem);
   /* Bright emerald finale */
   background:
-    radial-gradient(80% 60% at 50% 100%, rgb(11 61 46 / 0.9) 0%, transparent 70%),
+    radial-gradient(80% 60% at 50% 100%, rgb(var(--accent-deep-rgb) / 0.9) 0%, transparent 70%),
     linear-gradient(to bottom, #020807 0%, #04130d 60%, #062017 100%);
 }
 
@@ -17,7 +17,7 @@
   margin-left: calc(min(1100px, 110vw) / -2);
   margin-top: calc(min(1100px, 110vw) / -2);
   border-radius: 50%;
-  background: radial-gradient(circle, rgb(53 255 138 / 0.32) 0%, rgb(32 232 120 / 0.14) 30%, rgb(11 61 46 / 0.12) 50%, transparent 68%);
+  background: radial-gradient(circle, rgb(var(--accent-bright-rgb) / 0.32) 0%, rgb(var(--accent-rgb) / 0.14) 30%, rgb(var(--accent-deep-rgb) / 0.12) 50%, transparent 68%);
   pointer-events: none;
 }
 
@@ -25,8 +25,8 @@
   position: absolute;
   inset: 17%;
   border-radius: 50%;
-  border: 1px solid rgb(53 255 138 / 0.18);
-  box-shadow: inset 0 0 80px rgb(53 255 138 / 0.08), 0 0 60px rgb(53 255 138 / 0.08);
+  border: 1px solid rgb(var(--accent-bright-rgb) / 0.18);
+  box-shadow: inset 0 0 80px rgb(var(--accent-bright-rgb) / 0.08), 0 0 60px rgb(var(--accent-bright-rgb) / 0.08);
 }
 
 .inner {
@@ -39,8 +39,8 @@
 }
 
 .accent {
-  color: var(--green-bright);
-  text-shadow: 0 0 80px rgb(53 255 138 / 0.4);
+  color: var(--accent-bright);
+  text-shadow: 0 0 80px rgb(var(--accent-bright-rgb) / 0.4);
 }
 
 .row {
@@ -70,83 +70,315 @@
   margin-top: 2rem;
 }
 
-.links {
+/* Each button gets its own colour by overriding the accent the pill reads:
+   Email in Gmail red (matching the email tile), CV in blue. */
+.emailButton {
+  --accent: #ea4335;
+  --accent-bright: #ff6b5e;
+  --accent-rgb: 234 67 53;
+  --accent-bright-rgb: 255 107 94;
+  --accent-on: #ffffff;
+  --border-strong: rgb(234 67 53 / 0.55);
+}
+
+.cvButton {
+  --accent: #3b82f6;
+  --accent-bright: #60a5fa;
+  --accent-rgb: 59 130 246;
+  --accent-bright-rgb: 96 165 250;
+  --accent-on: #ffffff;
+  --border-strong: rgb(96 165 250 / 0.55);
+}
+
+/* ─── Contact grid: wide email tile + three social tiles ─── */
+
+.grid {
   display: grid;
-  border-top: 1px solid var(--border);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.9rem;
 }
 
-.links li {
-  border-bottom: 1px solid var(--border);
+.tileCell {
+  display: flex;
 }
 
-.link {
+/* Each tile wears its platform's colours. --brand-rgb drives tints and glows,
+   --brand-fill the solid icon/button fill, --brand-on the glyph on that fill. */
+.tile {
+  --brand: var(--accent);
+  --brand-rgb: 32 232 120;
+  --brand-text: var(--accent);
+  --brand-fill: var(--accent);
+  --brand-on: var(--black);
+  --mx: 50%;
+  --my: 50%;
   position: relative;
-  display: grid;
-  grid-template-columns: auto minmax(7rem, 0.6fr) minmax(0, 1fr) auto;
-  align-items: center;
-  gap: 1.25rem;
-  padding: 1.25rem 0.5rem;
+  isolation: isolate;
   overflow: hidden;
-  transition: color 0.4s var(--ease-out), padding 0.5s var(--ease-out);
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 1.35rem;
+  border-radius: var(--radius-m);
+  border: 1px solid rgb(var(--brand-rgb) / 0.2);
+  background:
+    radial-gradient(120% 90% at 0% 0%, rgb(var(--brand-rgb) / 0.1), transparent 60%),
+    rgb(8 12 11 / 0.8);
+  transition:
+    border-color 0.45s var(--ease-out),
+    translate 0.45s var(--ease-out);
 }
 
-.link::before {
+.tile[data-brand="email"] {
+  --brand: #ea4335;
+  --brand-rgb: 234 67 53;
+  --brand-text: #ff7b70;
+  --brand-fill: #ffffff;
+  --brand-on: #ea4335;
+}
+
+.tile[data-brand="linkedin"] {
+  --brand: #0a66c2;
+  --brand-rgb: 10 102 194;
+  --brand-text: #58a6ff;
+  --brand-fill: #0a66c2;
+  --brand-on: #ffffff;
+}
+
+/* White glows far brighter than the other brand hues, so GitHub's tint is a
+   dimmed grey while its icon and button keep the true black-on-white. */
+.tile[data-brand="github"] {
+  --brand: #f0f6fc;
+  --brand-rgb: 139 148 158;
+  --brand-text: #c9d1d9;
+  --brand-fill: #f0f6fc;
+  --brand-on: #0d1117;
+}
+
+.tile[data-brand="instagram"] {
+  --brand: #d62976;
+  --brand-rgb: 214 41 118;
+  --brand-text: #ff7eb6;
+  --brand-fill: linear-gradient(45deg, #feda75 0%, #fa7e1e 25%, #d62976 50%, #962fbf 75%, #4f5bd5 100%);
+  --brand-on: #ffffff;
+}
+
+/* Spotlight that follows the pointer. */
+.tile::before {
   content: "";
   position: absolute;
   inset: 0;
   z-index: -1;
-  background: linear-gradient(90deg, rgb(32 232 120 / 0.14), transparent 80%);
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.6s var(--ease-out);
+  background: radial-gradient(260px circle at var(--mx) var(--my), rgb(var(--brand-rgb) / 0.2), transparent 70%);
+  opacity: 0;
+  transition: opacity 0.4s var(--ease-out);
 }
 
-.link:hover::before,
-.link:focus-visible::before {
-  transform: scaleX(1);
+.tile:hover,
+.tile:focus-within,
+.socialTile:focus-visible {
+  border-color: rgb(var(--brand-rgb) / 0.55);
 }
 
-.link:hover,
-.link:focus-visible {
-  padding-left: 1.25rem;
+.tile:hover::before,
+.tile:focus-within::before {
+  opacity: 1;
 }
 
-.linkIcon {
-  display: grid !important;
+.socialTile:hover {
+  translate: 0 -4px;
+}
+
+.tileIcon {
+  display: grid;
   place-items: center;
-  width: 44px;
-  height: 44px;
+  width: 46px;
+  height: 46px;
+  border-radius: 14px;
+  background: var(--brand-fill);
+  color: var(--brand-on);
+  box-shadow: 0 6px 18px -6px rgb(var(--brand-rgb) / 0.55);
+  transition:
+    translate 0.45s var(--ease-out),
+    background 0.45s var(--ease-out),
+    box-shadow 0.45s var(--ease-out);
+}
+
+.tile:hover .tileIcon {
+  translate: 0 -3px;
+  box-shadow: 0 10px 28px -6px rgb(var(--brand-rgb) / 0.8);
+}
+
+.tileTop {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.tileArrow {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
   border-radius: 50%;
-  border: 1px solid var(--border-strong);
-  color: var(--green-bright);
-  transition: box-shadow 0.4s var(--ease-out), background 0.4s var(--ease-out);
+  color: var(--brand-text);
+  transition:
+    translate 0.45s var(--ease-out),
+    background 0.45s var(--ease-out),
+    color 0.45s var(--ease-out);
 }
 
-.link:hover .linkIcon {
-  background: rgb(32 232 120 / 0.15);
-  box-shadow: 0 0 24px rgb(32 232 120 / 0.45);
+.socialTile:hover .tileArrow {
+  translate: 3px -3px;
+  background: var(--brand-fill);
+  color: var(--brand-on);
 }
 
-.linkLabel {
+.tileLabel {
+  display: block;
+  margin-top: 1.4rem;
   font-family: var(--font-display);
   font-size: var(--step-1);
   font-weight: 600;
 }
 
-.linkHandle {
+.tileHandle {
+  display: block;
+  margin-top: 0.3rem;
+  font-size: var(--step--1);
   color: var(--muted);
-  overflow: hidden;
-  text-overflow: ellipsis;
+  overflow-wrap: anywhere;
+}
+
+.tileNote {
+  display: block;
+  margin-top: auto;
+  padding-top: 1.1rem;
+  font-size: var(--step--2);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--brand-text);
+}
+
+/* Email: spans the row, address set large, with copy + write actions. */
+.emailTile {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  grid-template-areas:
+    "icon label"
+    "icon address"
+    ". actions";
+  align-items: center;
+  column-gap: 1.25rem;
+  row-gap: 0.2rem;
+  padding: 1.5rem 1.5rem 1.5rem 1.35rem;
+}
+
+.emailTile .tileIcon {
+  grid-area: icon;
+  width: 58px;
+  height: 58px;
+  border-radius: 18px;
+}
+
+.emailTile .tileLabel {
+  grid-area: label;
+  margin-top: 0;
+  font-size: var(--step--2);
+  font-weight: 500;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--brand-text);
+}
+
+.emailAddress {
+  grid-area: address;
+  font-family: var(--font-display);
+  font-size: clamp(1.1rem, 0.7rem + 1.2vw, 1.75rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  overflow-wrap: anywhere;
+  line-height: 1.2;
+}
+
+.emailActions {
+  grid-area: actions;
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.copyButton,
+.writeLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.7rem 1rem;
+  border-radius: 999px;
+  border: 1px solid rgb(var(--brand-rgb) / 0.45);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
   white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background 0.4s var(--ease-out),
+    color 0.4s var(--ease-out),
+    box-shadow 0.4s var(--ease-out);
 }
 
-.linkArrow {
-  color: var(--green);
-  transition: translate 0.45s var(--ease-out), rotate 0.45s var(--ease-out);
+.copyButton {
+  background: transparent;
+  color: var(--white);
 }
 
-.link:hover .linkArrow {
-  translate: 3px -3px;
+.copyButton:hover,
+.copyButton:focus-visible {
+  background: rgb(var(--brand-rgb) / 0.12);
+}
+
+.writeLink {
+  background: var(--brand);
+  border-color: var(--brand);
+  color: #ffffff;
+}
+
+.writeLink:hover,
+.writeLink:focus-visible {
+  box-shadow: 0 0 28px rgb(var(--brand-rgb) / 0.55);
+}
+
+.writeLink svg {
+  transition: translate 0.4s var(--ease-out);
+}
+
+.writeLink:hover svg {
+  translate: 2px -2px;
+}
+
+@media (max-width: 559.98px) {
+  .grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .emailTile {
+    grid-template-columns: auto minmax(0, 1fr);
+    grid-template-areas:
+      "icon label"
+      "address address"
+      "actions actions";
+    row-gap: 0.75rem;
+  }
+
+  .emailActions {
+    margin-top: 0.25rem;
+  }
+
+  .emailActions {
+    flex-wrap: wrap;
+  }
 }
 
 @media (max-width: 899.98px) {
@@ -159,28 +391,3 @@
   }
 }
 
-@media (max-width: 559.98px) {
-  .link {
-    grid-template-columns: auto minmax(0, 1fr) auto;
-    row-gap: 0.1rem;
-  }
-
-  .linkLabel {
-    grid-column: 2;
-  }
-
-  .linkHandle {
-    grid-column: 2;
-    grid-row: 2;
-    font-size: var(--step--1);
-  }
-
-  .linkIcon {
-    grid-row: 1 / span 2;
-  }
-
-  .linkArrow {
-    grid-row: 1 / span 2;
-    grid-column: 3;
-  }
-}

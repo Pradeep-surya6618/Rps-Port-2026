@@ -30,7 +30,7 @@
 /* Blends into the hero until the page moves, then becomes glass. */
 .scrolled .bar,
 .open .bar {
-  background: rgb(4 17 12 / 0.55);
+  background: color-mix(in srgb, rgb(var(--accent-deep-rgb)) 22%, rgb(3 7 9 / 0.6));
   border-color: var(--border);
   backdrop-filter: blur(16px) saturate(140%);
   box-shadow: 0 10px 40px rgb(0 0 0 / 0.35);
@@ -52,8 +52,8 @@
   width: 9px;
   height: 9px;
   border-radius: 50%;
-  background: var(--green);
-  box-shadow: 0 0 12px var(--green);
+  background: var(--accent);
+  box-shadow: 0 0 12px var(--accent);
 }
 
 .links {
@@ -87,8 +87,8 @@
   width: 0;
   height: 2px;
   border-radius: 2px;
-  background: var(--green);
-  box-shadow: 0 0 10px var(--green);
+  background: var(--accent);
+  box-shadow: 0 0 10px var(--accent);
   opacity: 0;
 }
 
@@ -139,7 +139,7 @@
   padding: 1rem;
   border-radius: var(--radius-l);
   border: 1px solid var(--border);
-  background: rgb(4 17 12 / 0.92);
+  background: color-mix(in srgb, rgb(var(--accent-deep-rgb)) 22%, rgb(3 7 9 / 0.94));
   backdrop-filter: blur(16px);
 }
 
@@ -157,13 +157,13 @@
   font-weight: 600;
   letter-spacing: -0.02em;
   text-transform: uppercase;
-  border-bottom: 1px solid rgb(53 255 138 / 0.08);
+  border-bottom: 1px solid rgb(var(--accent-bright-rgb) / 0.08);
 }
 
 .sheetIndex {
   font-size: 0.7rem;
   letter-spacing: 0.2em;
-  color: var(--green);
+  color: var(--accent);
 }
 
 @media (max-width: 899.98px) {

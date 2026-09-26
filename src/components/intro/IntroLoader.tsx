@@ -7,6 +7,7 @@ import { createMagicWipe, type MagicWipe } from "@/lib/effects/magicShader";
 import { drawGlowingBolt, fitCanvas } from "@/lib/effects/lightning";
 import { useSite } from "@/components/providers/SiteProvider";
 import { profile } from "@/data/profile";
+import { brandAccentAttr, brandPalette } from "@/data/theme";
 import styles from "./IntroLoader.module.css";
 
 const SEEN_KEY = "ps-intro-seen";
@@ -97,7 +98,7 @@ export function IntroLoader() {
         const draw = () => {
           bctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
           if (frames++ < 12 && !leaving) {
-            drawGlowingBolt(bctx, from, to, { displace: 100, branchProb: 0.4 });
+            drawGlowingBolt(bctx, from, to, { displace: 100, branchProb: 0.4 }, brandPalette.bolt);
             requestAnimationFrame(draw);
           }
         };
@@ -150,7 +151,7 @@ export function IntroLoader() {
         bctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
 
         const shader = shaderRef.current!;
-        wipe = createMagicWipe(shader, { a: "#022e1b", b: "#20e878", c: "#044d2d" });
+        wipe = createMagicWipe(shader, brandPalette.wipe);
         const progress = { value: 0 };
         const render = () => wipe?.render(progress.value);
 
@@ -219,7 +220,7 @@ export function IntroLoader() {
   const letters = profile.firstName.toUpperCase().split("");
 
   return (
-    <div ref={root} className={styles.intro} data-intro>
+    <div ref={root} className={styles.intro} data-intro data-accent={brandAccentAttr}>
       <div className={styles.stage} data-stage>
         <div className={styles.flash} data-flash aria-hidden="true" />
         <button

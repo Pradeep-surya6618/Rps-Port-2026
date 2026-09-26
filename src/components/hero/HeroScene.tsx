@@ -5,7 +5,7 @@ import { gsap, useGSAP } from "@/lib/animations/gsap";
 import { FINE_POINTER, MEDIA } from "@/lib/animations/media";
 import { useSite } from "@/components/providers/SiteProvider";
 
-type HeroSceneProps = { className?: string; children: React.ReactNode };
+type HeroSceneProps = { className?: string; accent?: string; children: React.ReactNode };
 
 /**
  * Motion for the hero. Markup stays server-rendered; this wrapper finds the
@@ -14,7 +14,7 @@ type HeroSceneProps = { className?: string; children: React.ReactNode };
  *   data-hero-in="…"  inner elements animated by the entrance
  *   data-depth="n"    layers nudged by the pointer (desktop)
  */
-export function HeroScene({ className, children }: HeroSceneProps) {
+export function HeroScene({ className, accent, children }: HeroSceneProps) {
   const root = useRef<HTMLElement>(null);
   const { introDone } = useSite();
 
@@ -36,7 +36,30 @@ export function HeroScene({ className, children }: HeroSceneProps) {
             .from(q("[data-hero='mountains']"), { yPercent: 6, opacity: 0, duration: 2.4, ease: "power3.out" }, 0)
             .from(q("[data-hero='shapes'] > *"), { xPercent: -30, opacity: 0, duration: 1.8, stagger: 0.12 }, 0.1)
             .from(q("[data-hero-in='circle']"), { scale: 0.55, opacity: 0, duration: 1.8, ease: "expo.out" }, 0.15)
-            .from(q("[data-hero-in='portrait']"), { yPercent: 14, opacity: 0, duration: 1.7 }, 0.3)
+            // The orbit spins via CSS, so its entrance only fades it in.
+            .from(q("[data-hero-in='orbit']"), { opacity: 0, duration: 2, ease: "power2.out" }, 0.3)
+            // The portrait materialises from the feet up behind a sweeping scan
+            // line. It starts as the intro's green wave clears (~2.2s), so the
+            // reveal is the final beat of the entrance rather than hidden under it.
+            .fromTo(
+              q("[data-hero-in='portrait']"),
+              { clipPath: "inset(100% -10% -2% -10%)", yPercent: 6 },
+              { clipPath: "inset(-10% -10% -2% -10%)", yPercent: 0, duration: 1.4, ease: "power2.inOut", clearProps: "clipPath" },
+              2.2,
+            )
+            .fromTo(
+              q("[data-hero-in='scan']"),
+              { y: 0 },
+              {
+                y: () => -(q("[data-hero-in='portrait']")[0] as HTMLElement).offsetHeight,
+                duration: 1.4,
+                ease: "power2.inOut",
+              },
+              2.2,
+            )
+            .fromTo(q("[data-hero-in='scan']"), { opacity: 0 }, { opacity: 1, duration: 0.2, ease: "none" }, 2.2)
+            .to(q("[data-hero-in='scan']"), { opacity: 0, duration: 0.35 }, 3.45)
+            .from(q("[data-hero-in='aura']"), { opacity: 0, duration: 1.2 }, 3.2)
             .from(q("[data-hero-in='letter']"), { yPercent: 110, duration: 1.2, stagger: 0.05 }, 0.35)
             .from(
               q("[data-hero-in='script']"),
@@ -49,6 +72,16 @@ export function HeroScene({ className, children }: HeroSceneProps) {
             .from(q("[data-hero='social'] > *, [data-hero='cue'] > *"), { y: 20, opacity: 0, duration: 1, stagger: 0.08 }, 1.4);
 
           if (!introDone) return;
+
+          // Once settled, the portrait floats gently (y, separate from the entrance's yPercent).
+          gsap.to(q("[data-hero-in='portrait']"), {
+            y: -12,
+            duration: 3.4,
+            ease: "sine.inOut",
+            yoyo: true,
+            repeat: -1,
+            delay: 3.7,
+          });
 
           // ── Scroll: the camera pushes through the scene into About. ──
           const s = desktop ? 1 : tablet ? 0.7 : 0.45;
@@ -112,7 +145,7 @@ export function HeroScene({ className, children }: HeroSceneProps) {
   );
 
   return (
-    <section ref={root} id="top" className={className} aria-label="Introduction">
+    <section ref={root} id="top" className={className} data-accent={accent} aria-label="Introduction">
       {children}
     </section>
   );

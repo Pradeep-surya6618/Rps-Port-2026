@@ -8,7 +8,7 @@ import styles from "./About.module.css";
 
 export function About() {
   return (
-    <section id="about" className={styles.about} aria-labelledby="about-title">
+    <section id="about" className={styles.about} data-accent="rose" aria-labelledby="about-title">
       {/* Atmosphere: slow layers behind the copy. */}
       <Parallax speed={0.15} className={styles.orb} aria-hidden />
       <Parallax speed={0.35} className={styles.lines} aria-hidden>
