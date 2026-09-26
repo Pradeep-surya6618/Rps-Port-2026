@@ -314,6 +314,49 @@
 @media (max-width: 699.98px) {
   .layout {
     grid-template-columns: minmax(0, 1fr);
+    gap: 1.75rem;
+  }
+
+  .degree {
+    font-size: 3.4rem;
+  }
+
+  .detail {
+    margin-top: 1rem;
+  }
+
+  .meta {
+    gap: 2rem;
+    margin-top: 1.4rem;
+  }
+
+  .main .subTitle {
+    margin-top: 2.2rem;
+  }
+
+  .stop {
+    padding: 1.1rem 1.1rem 1.2rem;
+  }
+
+  .ring {
+    width: 62px;
+    height: 62px;
+  }
+
+  .ringValue {
+    font-size: 0.7rem;
+  }
+
+  .stopLevel {
+    margin-top: 0.9rem;
+  }
+
+  .stopYear {
+    font-size: 5rem;
+  }
+
+  .certName {
+    font-size: 0.92rem;
   }
 
   /* Stack the milestones with a vertical connector. */

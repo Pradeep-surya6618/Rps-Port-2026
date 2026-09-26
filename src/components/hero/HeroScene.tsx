@@ -39,27 +39,27 @@ export function HeroScene({ className, accent, children }: HeroSceneProps) {
             // The orbit spins via CSS, so its entrance only fades it in.
             .from(q("[data-hero-in='orbit']"), { opacity: 0, duration: 2, ease: "power2.out" }, 0.3)
             // The portrait materialises from the feet up behind a sweeping scan
-            // line. It starts as the intro's green wave clears (~2.2s), so the
-            // reveal is the final beat of the entrance rather than hidden under it.
+            // line, starting while the intro's portal is still opening so it is
+            // on screen almost immediately.
             .fromTo(
               q("[data-hero-in='portrait']"),
               { clipPath: "inset(100% -10% -2% -10%)", yPercent: 6 },
-              { clipPath: "inset(-10% -10% -2% -10%)", yPercent: 0, duration: 1.4, ease: "power2.inOut", clearProps: "clipPath" },
-              2.2,
+              { clipPath: "inset(-10% -10% -2% -10%)", yPercent: 0, duration: 1.1, ease: "power2.inOut", clearProps: "clipPath" },
+              0.3,
             )
             .fromTo(
               q("[data-hero-in='scan']"),
               { y: 0 },
               {
                 y: () => -(q("[data-hero-in='portrait']")[0] as HTMLElement).offsetHeight,
-                duration: 1.4,
+                duration: 1.1,
                 ease: "power2.inOut",
               },
-              2.2,
+              0.3,
             )
-            .fromTo(q("[data-hero-in='scan']"), { opacity: 0 }, { opacity: 1, duration: 0.2, ease: "none" }, 2.2)
-            .to(q("[data-hero-in='scan']"), { opacity: 0, duration: 0.35 }, 3.45)
-            .from(q("[data-hero-in='aura']"), { opacity: 0, duration: 1.2 }, 3.2)
+            .fromTo(q("[data-hero-in='scan']"), { opacity: 0 }, { opacity: 1, duration: 0.15, ease: "none" }, 0.3)
+            .to(q("[data-hero-in='scan']"), { opacity: 0, duration: 0.3 }, 1.3)
+            .from(q("[data-hero-in='aura']"), { opacity: 0, duration: 1 }, 1.1)
             .from(q("[data-hero-in='letter']"), { yPercent: 110, duration: 1.2, stagger: 0.05 }, 0.35)
             .from(
               q("[data-hero-in='script']"),
@@ -80,7 +80,7 @@ export function HeroScene({ className, accent, children }: HeroSceneProps) {
             ease: "sine.inOut",
             yoyo: true,
             repeat: -1,
-            delay: 3.7,
+            delay: 1.6,
           });
 
           // ── Scroll: the camera pushes through the scene into About. ──

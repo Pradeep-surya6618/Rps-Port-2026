@@ -478,15 +478,53 @@
   }
 }
 
+@media (max-width: 767.98px) {
+  .title {
+    font-size: 2.6rem;
+  }
+
+  .statValue {
+    font-size: 2.5rem;
+  }
+
+  .stat {
+    gap: 0.9rem;
+    margin-top: 1.5rem;
+  }
+
+  .statLabel {
+    font-size: 0.85rem;
+  }
+
+  .handle {
+    margin-top: 1.4rem;
+  }
+
+  .bioLine {
+    font-size: 0.9rem;
+  }
+
+  .chipInner {
+    padding: 0.45rem 0.8rem;
+    font-size: 0.72rem;
+  }
+
+  .topic {
+    padding: 0 1.2rem;
+  }
+}
+
 @media (max-width: 559.98px) {
   .stage {
-    height: 600px;
+    height: 520px;
     min-height: 0;
   }
 
+  /* The phone mock-up is laid out in px, so scale it as a whole. */
   .phone {
-    width: 260px;
-    height: 540px;
+    width: 300px;
+    height: 610px;
+    zoom: 0.8;
   }
 
   .chipA,

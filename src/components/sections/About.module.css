@@ -213,12 +213,23 @@
   }
 
   .title {
-    font-size: clamp(3rem, 15vw, 5rem);
+    font-size: clamp(2.3rem, 11.5vw, 3.4rem);
   }
 
   .photo {
-    width: min(100%, 420px);
+    width: min(100%, 300px);
   }
+
+  .body {
+    margin-top: 1.25rem;
+    padding-left: 1rem;
+  }
+
+  .fact dd {
+    font-size: 0.9rem;
+  }
+
+
 
   .facts {
     grid-template-columns: minmax(0, 1fr);

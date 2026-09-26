@@ -19,9 +19,9 @@ src/
   app/                  layout (fonts, metadata), page, robots, sitemap, icon
   data/                 all content — profile, experience, projects, skills, social, navigation
   lib/animations/       gsap registration, Lenis ↔ ScrollTrigger sync, parallax / reveal / magnetic helpers
-  lib/effects/          Loki-style lightning generator and the green-magic WebGL wipe
+  lib/effects/          Loki-style lightning generator
   components/
-    intro/              IntroLoader — name forged in metal, lightning, green-magic reveal
+    intro/              IntroLoader — name forged in metal, lightning, portal reveal
     cursor/             LightningCursor — glowing core with a lightning trail
     animation/          Parallax, Reveal, RevealText, Magnetic, ScrollProgress
     hero/               Hero + background layers, portrait, tech strip, info rail, socials, HeroScene (motion)

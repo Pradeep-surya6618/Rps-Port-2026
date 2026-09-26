@@ -335,7 +335,7 @@
   pointer-events: none;
 }
 
-/* ─── Small screens: plain stacked scenes ─── */
+/* ─── Small screens: the same full-screen scenes, stacked vertically ─── */
 
 @media (max-width: 899.98px) {
   .head {
@@ -344,17 +344,18 @@
   }
 
   .panel {
-    position: relative;
-    height: auto;
     min-height: 0;
   }
 
+  /* Screenshot on top, text below, centred in the space under the navbar. */
   .scene {
-    padding: 5rem 0 4.5rem;
+    align-items: center;
+    padding: calc(var(--nav-h) + 0.5rem) 0 1.25rem;
   }
 
   .panelGrid {
     grid-template-columns: minmax(0, 1fr);
+    gap: 1.4rem;
     padding-top: 0;
   }
 
@@ -364,7 +365,7 @@
 
   .number {
     font-size: 58vw;
-    top: 1rem;
+    top: calc(var(--nav-h) - 1rem);
     bottom: auto;
     left: auto;
     right: -4vw;
@@ -372,5 +373,63 @@
 
   .features {
     grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* Phones */
+@media (max-width: 767.98px) {
+  .head {
+    padding-top: 4.5rem;
+    padding-bottom: 2.5rem;
+  }
+
+  .panelGrid {
+    gap: 1.1rem;
+  }
+
+  .name {
+    font-size: 2.1rem;
+  }
+
+  .desc {
+    margin-top: 0.8rem;
+  }
+
+  .features {
+    font-size: 0.72rem;
+  }
+
+  .tech li {
+    padding: 0.32rem 0.7rem;
+    font-size: 0.7rem;
+  }
+
+  .category {
+    font-size: 0.66rem;
+    letter-spacing: 0.2em;
+  }
+
+  .chrome {
+    height: 26px;
+  }
+
+  .chrome span {
+    width: 7px;
+    height: 7px;
+  }
+}
+
+/* Short phones: drop the feature list so each scene still fits one screen. */
+@media (max-width: 767.98px) and (max-height: 740px) {
+  .features {
+    display: none;
+  }
+
+  .panelGrid {
+    gap: 0.9rem;
+  }
+
+  .desc {
+    font-size: 0.9rem;
   }
 }

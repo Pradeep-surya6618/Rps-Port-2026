@@ -8,7 +8,7 @@ import styles from "./Contact.module.css";
 
 export function Contact() {
   return (
-    <section id="contact" className={styles.contact} aria-labelledby="contact-title">
+    <section id="contact" className={styles.contact} data-accent="red" aria-labelledby="contact-title">
       <ContactGlow className={styles.glow} />
 
       <div className={`container ${styles.inner}`}>

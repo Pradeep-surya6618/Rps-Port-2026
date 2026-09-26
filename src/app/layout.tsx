@@ -81,7 +81,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       className={`${display.variable} ${body.variable} ${script.variable} intro-active`}
       suppressHydrationWarning
     >
-      <body>
+      {/* Extensions such as Grammarly add attributes to <body> before React
+          loads; this ignores those attribute differences on <body> only. */}
+      <body suppressHydrationWarning>
         <noscript>
           <style>{`html.intro-active{overflow:auto}[data-intro]{display:none!important}`}</style>
         </noscript>

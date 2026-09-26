@@ -2,7 +2,19 @@
   position: fixed;
   inset: 0;
   z-index: 100;
+}
+
+/* The dark screen. When the portal opens it is cut away inside a circle of
+   radius --r centred on the impact point (--cx, --cy). */
+.backdrop {
+  position: absolute;
+  inset: 0;
   background: radial-gradient(circle at 50% 45%, color-mix(in srgb, rgb(var(--accent-deep-rgb)) 55%, #020807) 0%, #020807 70%, #010402 100%);
+}
+
+.backdrop[data-portal] {
+  -webkit-mask-image: radial-gradient(circle at var(--cx) var(--cy), transparent var(--r), #000 calc(var(--r) + 1px));
+  mask-image: radial-gradient(circle at var(--cx) var(--cy), transparent var(--r), #000 calc(var(--r) + 1px));
 }
 
 .stage {
@@ -154,7 +166,7 @@
 }
 
 .bolts,
-.shader {
+.portal {
   position: fixed;
   inset: 0;
   width: 100vw;
@@ -166,6 +178,24 @@
   z-index: 2;
 }
 
-.shader {
+/* Ring riding the portal's edge: a wide soft glow under a crisp core. */
+.portal {
   z-index: 3;
+  overflow: visible;
+  visibility: hidden;
+}
+
+.ringGlow,
+.ringCore {
+  fill: none;
+}
+
+.ringGlow {
+  stroke: rgb(var(--accent-bright-rgb) / 0.28);
+  stroke-width: 26;
+}
+
+.ringCore {
+  stroke: var(--accent-soft);
+  stroke-width: 3;
 }

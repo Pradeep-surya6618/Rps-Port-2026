@@ -1,11 +1,12 @@
 import { Reveal } from "@/components/animation/Reveal";
 import { RevealText } from "@/components/animation/RevealText";
-import { alsoWorkWith, placeSkills, skillGroups } from "@/data/skills";
+import { alsoWorkWith, placeSkills, placeSkillsOrbit, skillGroups } from "@/data/skills";
 import { StackConstellation } from "./StackConstellation";
 import styles from "./TechStack.module.css";
 
 export function TechStack() {
   const placed = placeSkills(skillGroups);
+  const orbit = placeSkillsOrbit(skillGroups);
 
   return (
     <section id="stack" className={styles.stack} data-accent="cyan" aria-label="The stack">
@@ -20,7 +21,7 @@ export function TechStack() {
       </div>
 
       <div className="container">
-        <StackConstellation groups={skillGroups} skills={placed} />
+        <StackConstellation groups={skillGroups} skills={placed} orbit={orbit} />
       </div>
 
       <div className={`container ${styles.also}`}>

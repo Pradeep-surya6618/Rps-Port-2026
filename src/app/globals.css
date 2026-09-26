@@ -229,6 +229,34 @@ button {
   will-change: transform;
 }
 
+/* ─── Phones: a smaller type scale and tighter margins across the site ─── */
+@media (max-width: 767.98px) {
+  :root {
+    --step--2: 0.64rem;
+    --step--1: 0.76rem;
+    --step-0: 0.94rem;
+    --step-1: 1.05rem;
+    --step-2: 1.2rem;
+    --step-3: 1.35rem;
+    --step-4: 1.75rem;
+    --step-5: 2.4rem;
+    --step-6: 2.8rem;
+    --gutter: 1.1rem;
+    --radius-m: 18px;
+    --radius-l: 22px;
+  }
+
+  .eyebrow {
+    gap: 0.65rem;
+    font-size: 0.66rem;
+    letter-spacing: 0.26em;
+  }
+
+  .eyebrow::before {
+    width: 24px;
+  }
+}
+
 /* ─── Section themes ───
    Each section sets data-accent; everything inside that uses the accent
    tokens (and --border / --border-strong) follows. The borders are
@@ -288,6 +316,16 @@ button {
   --accent-deep-rgb: 72 14 44;
   --accent-soft: #ffd3e6;
   --accent-dark: #b01f55;
+}
+
+[data-accent="red"] {
+  --accent: #ef4444;
+  --accent-bright: #f87171;
+  --accent-rgb: 239 68 68;
+  --accent-bright-rgb: 248 113 113;
+  --accent-deep-rgb: 82 16 16;
+  --accent-soft: #ffd6d6;
+  --accent-dark: #c62828;
 }
 
 [data-accent="blue"] {

@@ -680,3 +680,54 @@
     object-position: 72% 30%;
   }
 }
+
+/* Phones: the two calls to action share one row, half the width each. */
+@media (max-width: 767.98px) {
+  .ctas {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.55rem;
+  }
+
+  .ctas > * {
+    display: block !important;
+    min-width: 0;
+  }
+
+  .ctas a {
+    width: 100%;
+    justify-content: space-between;
+    gap: 0.4rem;
+    padding: 0.62rem 0.5rem 0.62rem 0.85rem;
+    font-size: 0.6rem;
+    letter-spacing: 0.06em;
+  }
+
+  .ctas a > span:nth-child(2) {
+    flex: none;
+    width: 22px;
+    height: 22px;
+  }
+}
+
+/* Narrow phones (under 375px): a touch tighter so both labels still fit. */
+@media (max-width: 374.98px) {
+  .ctas a {
+    gap: 0.3rem;
+    padding-left: 0.7rem;
+    font-size: 0.56rem;
+    letter-spacing: 0.03em;
+  }
+
+  .ctas a > span:nth-child(2) {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+/* Very small phones (under 340px): stack again rather than squeeze the labels. */
+@media (max-width: 339.98px) {
+  .ctas {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

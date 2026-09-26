@@ -6,8 +6,8 @@ import { MEDIA } from "@/lib/animations/media";
 import styles from "./Experience.module.css";
 
 /**
- * Drives the experience timeline: the rail draws itself with scroll, a green
- * marker travels down it, and each entry assembles as the marker arrives.
+ * Drives the experience timeline: the rail draws itself with scroll, a
+ * glowing marker travels down it, and each entry assembles as it arrives.
  */
 export function TimelineScene({ children }: { children: React.ReactNode }) {
   const root = useRef<HTMLOListElement>(null);
@@ -19,13 +19,30 @@ export function TimelineScene({ children }: { children: React.ReactNode }) {
       const mm = gsap.matchMedia();
 
       mm.add(MEDIA.motion, () => {
-        const track = { trigger: el, start: "top 65%", end: "bottom 65%", scrub: 0.5 };
-        gsap.fromTo(q("[data-tl='line']"), { scaleY: 0 }, { scaleY: 1, ease: "none", scrollTrigger: track });
-        gsap.fromTo(
-          q("[data-tl='marker']"),
-          { y: 0 },
-          { y: () => el.offsetHeight, ease: "none", scrollTrigger: { ...track, invalidateOnRefresh: true } },
-        );
+        // Rail and marker follow a reading line 65% down the screen. Progress
+        // is measured live from the list's on-screen position on every scroll,
+        // not from positions stored up front, so it stays right even if the
+        // layout above changes after load (images, fonts, resizing).
+        const line = q("[data-tl='line']")[0] as HTMLElement;
+        const marker = q("[data-tl='marker']")[0] as HTMLElement;
+        gsap.set(line, { scaleY: 0 });
+        const fillTo = gsap.quickTo(line, "scaleY", { duration: 0.4, ease: "power2.out" });
+        const markTo = gsap.quickTo(marker, "y", { duration: 0.4, ease: "power2.out" });
+
+        let frame = 0;
+        const update = () => {
+          frame = 0;
+          const r = el.getBoundingClientRect();
+          const p = gsap.utils.clamp(0, 1, (window.innerHeight * 0.65 - r.top) / r.height);
+          fillTo(p);
+          markTo(p * r.height);
+        };
+        const schedule = () => {
+          if (!frame) frame = requestAnimationFrame(update);
+        };
+        update();
+        window.addEventListener("scroll", schedule, { passive: true });
+        window.addEventListener("resize", schedule);
 
         q("[data-tl='item']").forEach((item) => {
           const iq = gsap.utils.selector(item);
@@ -44,6 +61,17 @@ export function TimelineScene({ children }: { children: React.ReactNode }) {
             .from(iq("[data-tl='point']"), { y: 18, opacity: 0, duration: 0.7, stagger: 0.07 }, 0.3)
             .from(iq("[data-tl='chip']"), { scale: 0.8, opacity: 0, duration: 0.5, stagger: 0.05 }, 0.5);
         });
+
+        return () => {
+          cancelAnimationFrame(frame);
+          window.removeEventListener("scroll", schedule);
+          window.removeEventListener("resize", schedule);
+        };
+      });
+
+      // Reduced motion: show the rail complete and hide the travelling marker.
+      mm.add(MEDIA.reduced, () => {
+        gsap.set(q("[data-tl='marker']"), { autoAlpha: 0 });
       });
     },
     { scope: root },

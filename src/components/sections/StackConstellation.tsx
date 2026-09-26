@@ -4,19 +4,24 @@ import { useEffect, useRef, useState } from "react";
 import { gsap, useGSAP } from "@/lib/animations/gsap";
 import { MEDIA } from "@/lib/animations/media";
 import { Icon } from "@/components/ui/Icon";
-import type { PlacedSkill, SkillGroup } from "@/data/skills";
+import type { OrbitLayout, PlacedSkill, SkillGroup } from "@/data/skills";
 import styles from "./TechStack.module.css";
 
 const CENTER = { x: 50, y: 52 };
+const ORBIT_CENTER = { x: 50, y: 50 };
 
-type Props = { groups: SkillGroup[]; skills: PlacedSkill[] };
+/** Desktop (x, y) and phone (xm, ym) positions as CSS variables; CSS picks one. */
+const pos = (x: number, y: number, xm: number, ym: number) =>
+  ({ "--x": `${x}%`, "--y": `${y}%`, "--xm": `${xm}%`, "--ym": `${ym}%` }) as React.CSSProperties;
+
+type Props = { groups: SkillGroup[]; skills: PlacedSkill[]; orbit: OrbitLayout };
 
 /**
  * The stack as a small network: a centre node, one hub per category and the
- * skills fanned around each hub. Hovering a skill lights its path back to
+ * skills fanned around each hub (on phones: an oval orbit of the same network). Hovering a skill lights its path back to
  * the centre and nudges its neighbours aside.
  */
-export function StackConstellation({ groups, skills }: Props) {
+export function StackConstellation({ groups, skills, orbit }: Props) {
   const stage = useRef<HTMLDivElement>(null);
   const [hover, setHover] = useState<{ group: string; skill?: string } | null>(null);
 
@@ -61,38 +66,53 @@ export function StackConstellation({ groups, skills }: Props) {
 
   return (
     <div ref={stage} className={styles.stage} data-active={hover ? "true" : undefined} onPointerLeave={() => setHover(null)}>
-      <svg className={styles.lines} viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
-        {groups.map((g) => (
-          <line
-            key={g.id}
-            x1={CENTER.x}
-            y1={CENTER.y}
-            x2={g.hub.x}
-            y2={g.hub.y}
-            pathLength={1}
-            data-st="line"
-            className={hover?.group === g.id ? styles.lineOn : undefined}
-          />
-        ))}
-        {skills.map((s) => {
-          const g = groups.find((x) => x.id === s.group)!;
-          const on = hover?.group === s.group && (!hover.skill || hover.skill === s.name);
-          return (
+      {/* Connections, drawn once for the wide layout and once for the phone orbit. */}
+      {(
+        [
+          ["wide", CENTER, (id: string) => groups.find((g) => g.id === id)!.hub, (sk: PlacedSkill) => sk],
+          ["orbit", ORBIT_CENTER, (id: string) => orbit.hubs[id], (sk: PlacedSkill) => orbit.skills[`${sk.group}:${sk.name}`]],
+        ] as const
+      ).map(([kind, c, hubAt, skillAt]) => (
+        <svg
+          key={kind}
+          className={`${styles.lines} ${kind === "wide" ? styles.linesWide : styles.linesOrbit}`}
+          viewBox="0 0 100 100"
+          preserveAspectRatio="none"
+          aria-hidden="true"
+        >
+          {groups.map((g) => (
             <line
-              key={`${s.group}-${s.name}`}
-              x1={g.hub.x}
-              y1={g.hub.y}
-              x2={s.x}
-              y2={s.y}
+              key={g.id}
+              x1={c.x}
+              y1={c.y}
+              x2={hubAt(g.id).x}
+              y2={hubAt(g.id).y}
               pathLength={1}
               data-st="line"
-              className={on ? styles.lineOn : undefined}
+              className={hover?.group === g.id ? styles.lineOn : undefined}
             />
-          );
-        })}
-      </svg>
+          ))}
+          {skills.map((sk) => {
+            const on = hover?.group === sk.group && (!hover.skill || hover.skill === sk.name);
+            const h = hubAt(sk.group);
+            const p = skillAt(sk);
+            return (
+              <line
+                key={`${sk.group}-${sk.name}`}
+                x1={h.x}
+                y1={h.y}
+                x2={p.x}
+                y2={p.y}
+                pathLength={1}
+                data-st="line"
+                className={on ? styles.lineOn : undefined}
+              />
+            );
+          })}
+        </svg>
+      ))}
 
-      <div className={styles.core} style={{ left: `${CENTER.x}%`, top: `${CENTER.y}%` }} data-st="core">
+      <div className={styles.core} style={pos(CENTER.x, CENTER.y, ORBIT_CENTER.x, ORBIT_CENTER.y)} data-st="core">
         <span className={styles.coreRing} aria-hidden="true" />
         Full
         <br />
@@ -103,7 +123,7 @@ export function StackConstellation({ groups, skills }: Props) {
         <div key={g.id} className={styles.group}>
           <h3
             className={`${styles.hub} ${hover?.group === g.id ? styles.on : ""}`}
-            style={{ left: `${g.hub.x}%`, top: `${g.hub.y}%` }}
+            style={pos(g.hub.x, g.hub.y, orbit.hubs[g.id].x, orbit.hubs[g.id].y)}
             data-st="hub"
             onPointerEnter={() => setHover({ group: g.id })}
           >
@@ -118,8 +138,7 @@ export function StackConstellation({ groups, skills }: Props) {
                   className={`${styles.skill} ${hovered === s ? styles.on : ""}`}
                   style={
                     {
-                      left: `${s.x}%`,
-                      top: `${s.y}%`,
+                      ...pos(s.x, s.y, orbit.skills[`${g.id}:${s.name}`].x, orbit.skills[`${g.id}:${s.name}`].y),
                       translate: nudge(s),
                       "--float-delay": `${(i * 0.7 + g.hub.x / 20).toFixed(2)}s`,
                     } as React.CSSProperties
