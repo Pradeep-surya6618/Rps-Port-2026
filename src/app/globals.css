@@ -151,6 +151,18 @@ button {
   cursor: none !important;
 }
 
+/* Modal dialogs render in the browser's top layer, above the custom cursor,
+   so show the system cursor inside them instead. */
+.has-custom-cursor dialog[open],
+.has-custom-cursor dialog[open] * {
+  cursor: default !important;
+}
+
+.has-custom-cursor dialog[open] :is(a, button),
+.has-custom-cursor dialog[open] :is(a, button) * {
+  cursor: pointer !important;
+}
+
 /* ─── Shared primitives ─── */
 
 .container {
