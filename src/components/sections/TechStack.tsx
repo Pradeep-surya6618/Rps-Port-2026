@@ -1,4 +1,6 @@
+import { Layers } from "lucide-react";
 import { Reveal } from "@/components/animation/Reveal";
+import { BackgroundIcon } from "@/components/ui/BackgroundIcon";
 import { RevealText } from "@/components/animation/RevealText";
 import { alsoWorkWith, placeSkills, placeSkillsOrbit, skillGroups } from "@/data/skills";
 import { StackConstellation } from "./StackConstellation";
@@ -10,6 +12,9 @@ export function TechStack() {
 
   return (
     <section id="stack" className={styles.stack} data-accent="cyan" aria-label="The stack">
+      <BackgroundIcon className={styles.bgIcon} speed={0.65}>
+        <Layers />
+      </BackgroundIcon>
       <div className={`container ${styles.head}`}>
         <p className="eyebrow">Toolkit</p>
         <RevealText as="h2" lines={["The stack"]} className={`display ${styles.title}`} />

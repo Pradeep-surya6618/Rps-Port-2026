@@ -71,61 +71,60 @@
   border-radius: 24px;
 }
 
-.first {
+/* Tech-HUD name: wide Orbitron, generous tracking, soft blue glow. */
+.name {
   display: flex;
-  font-family: var(--font-display);
-  font-weight: 800;
-  font-size: clamp(3.25rem, 13vw, 10.5rem);
-  line-height: 0.9;
-  letter-spacing: -0.02em;
+  flex-wrap: wrap;
+  justify-content: center;
+  column-gap: 0.55em;
+  row-gap: 0.1em;
+  font-family: var(--font-hud), var(--font-display), sans-serif;
+  font-weight: 700;
+  font-size: clamp(2rem, 5.6vw, 5.2rem);
+  line-height: 1.05;
+  letter-spacing: 0.16em;
 }
 
-/* Forged-metal letters: cool steel, lit from above. */
+.word {
+  display: inline-flex;
+  /* Tracking adds space after the last letter; pull it back so words centre. */
+  margin-right: -0.16em;
+}
+
 .letter {
   display: inline-block;
-  padding: 0 0.08em;
-  margin: 0 -0.08em;
-  background:
-    linear-gradient(
-      178deg,
-      #f4faf6 0%,
-      #b9c9c0 30%,
-      #5e7168 49%,
-      #2e3d36 51%,
-      #8fa399 72%,
-      #d9e5de 100%
-    );
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  -webkit-text-stroke: 1px rgb(180 255 214 / 0.18);
-  transform-origin: 50% 100%;
+  color: #eaf2ff;
+  text-shadow:
+    0 0 10px rgb(var(--accent-bright-rgb) / 0.55),
+    0 0 36px rgb(var(--accent-rgb) / 0.35);
   opacity: 0;
 }
 
-.script {
-  position: absolute;
-  right: 0.5rem;
-  bottom: -0.35rem;
-  font-family: var(--font-script);
-  font-size: clamp(3rem, 10vw, 7.5rem);
-  line-height: 1;
-  transform: rotate(-7deg);
-  background: linear-gradient(180deg, var(--accent-soft) 0%, var(--accent-bright) 40%, var(--accent-dark) 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  filter: drop-shadow(0 0 18px rgb(var(--accent-bright-rgb) / 0.55));
-  padding: 0.2em 0.45em 0.3em 0.4em;
-  margin: -0.2em -0.05em -0.2em 0;
+.surname .letter {
+  color: var(--accent-bright);
+  text-shadow:
+    0 0 12px rgb(var(--accent-bright-rgb) / 0.8),
+    0 0 44px rgb(var(--accent-rgb) / 0.5);
+}
+
+.subtitle {
+  order: 2;
+  margin-top: 1.1rem;
+  text-transform: uppercase;
+  font-family: var(--font-hud), var(--font-display), sans-serif;
+  font-size: clamp(0.62rem, 1.1vw, 0.9rem);
+  font-weight: 500;
+  letter-spacing: 0.55em;
+  padding-left: 0.55em;
+  color: var(--accent-soft);
   opacity: 0;
 }
 
+/* Sits in the flow between the name and the subtitle. */
 .line {
-  position: absolute;
-  left: 8%;
-  right: 8%;
-  bottom: 0.75rem;
+  order: 1;
+  width: 84%;
+  margin-top: 1.2rem;
   height: 1px;
   background: linear-gradient(90deg, transparent, var(--accent-bright) 20%, var(--accent-soft) 50%, var(--accent-bright) 80%, transparent);
   box-shadow: 0 0 12px rgb(var(--accent-bright-rgb) / 0.8);
@@ -198,4 +197,26 @@
 .ringCore {
   stroke: var(--accent-soft);
   stroke-width: 3;
+}
+
+@media (max-width: 599.98px) {
+  /* Phones: the two words stack, each as large as the width allows. */
+  .name {
+    font-size: 10vw;
+    letter-spacing: 0.12em;
+  }
+
+  .word {
+    margin-right: -0.12em;
+  }
+
+  .subtitle {
+    margin-top: 0.9rem;
+    font-size: 0.55rem;
+    letter-spacing: 0.32em;
+  }
+
+  .line {
+    margin-top: 1rem;
+  }
 }

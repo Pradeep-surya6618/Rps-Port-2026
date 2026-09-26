@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
+import siteIcon from "@/app/icon.svg";
 import { gsap, ScrollTrigger, useGSAP } from "@/lib/animations/gsap";
 import { useSite } from "@/components/providers/SiteProvider";
 import { Icon } from "@/components/ui/Icon";
@@ -121,9 +123,18 @@ export function Navbar() {
       data-accent={brandAccentAttr}
     >
       <div className={styles.bar}>
-        <a href="#top" className={styles.brand} onClick={(e) => go(e, "#top")}>
-          <span className={styles.brandMark} aria-hidden="true" />
-          {profile.fullName}
+        {/* The hero already shows the full name, so the navbar carries a logo instead. */}
+        <a
+          href="#top"
+          className={styles.brand}
+          aria-label={`${profile.fullName}, back to top`}
+          onClick={(e) => go(e, "#top")}
+        >
+          {/* Same mark as the favicon (src/app/icon.svg). */}
+          <Image src={siteIcon} alt="" width={34} height={34} className={styles.monogram} preload />
+          <span aria-hidden="true">
+            Portfolio
+          </span>
         </a>
 
         <nav aria-label="Primary" className={styles.links}>

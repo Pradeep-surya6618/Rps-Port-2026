@@ -124,17 +124,24 @@ export function IntroLoader() {
       const intro = gsap.timeline({ defaults: { ease: "power3.out" } });
       intro
         .fromTo(q("[data-line]"), { scaleX: 0, opacity: 1 }, { scaleX: 0.18, duration: quick ? 0.25 : 0.45 })
+        // Letters flicker on in random order, like a HUD booting up.
         .fromTo(
           q("[data-letter]"),
-          { opacity: 0, yPercent: 60, rotateX: -70, filter: "blur(12px)" },
-          { opacity: 1, yPercent: 0, rotateX: 0, filter: "blur(0px)", duration: quick ? 0.6 : 0.9, stagger: quick ? 0.03 : 0.055 },
+          { opacity: 0 },
+          {
+            keyframes: { opacity: [0, 1, 0.15, 1, 0.45, 1] },
+            duration: quick ? 0.45 : 0.75,
+            ease: "none",
+            stagger: { each: quick ? 0.025 : 0.05, from: "random" },
+          },
           quick ? 0.1 : 0.2,
         )
+        // Subtitle types across from the left.
         .fromTo(
           q("[data-script]"),
-          { clipPath: "inset(-20% 100% -20% 0%)", opacity: 1 },
-          { clipPath: "inset(-20% 0% -20% 0%)", duration: quick ? 0.6 : 1, ease: "power2.inOut" },
-          quick ? 0.35 : 0.65,
+          { clipPath: "inset(0% 100% 0% 0%)", opacity: 1 },
+          { clipPath: "inset(0% 0% 0% 0%)", duration: quick ? 0.5 : 0.8, ease: "steps(20)" },
+          quick ? 0.4 : 0.85,
         )
         .to(q("[data-line]"), { scaleX: 1, duration: 0.8, ease: "expo.inOut" }, quick ? 0.5 : 0.95)
         .fromTo(q("[data-hint]"), { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.6 }, quick ? 0.6 : 1.3);
@@ -213,7 +220,7 @@ export function IntroLoader() {
 
   if (gone) return null;
 
-  const letters = profile.firstName.toUpperCase().split("");
+  const words = [profile.firstName, profile.lastName].map((w) => w.toUpperCase().split(""));
 
   return (
     <div ref={root} className={styles.intro} data-intro data-accent={brandAccentAttr}>
@@ -227,15 +234,19 @@ export function IntroLoader() {
           onClick={() => leaveRef.current()}
           aria-label={`Enter ${profile.fullName}'s portfolio`}
         >
-          <span className={styles.first} aria-hidden="true">
-            {letters.map((l, i) => (
-              <span key={i} className={styles.letter} data-letter>
-                {l}
+          <span className={styles.name} aria-hidden="true">
+            {words.map((letters, wi) => (
+              <span key={wi} className={`${styles.word} ${wi === 1 ? styles.surname : ""}`}>
+                {letters.map((l, i) => (
+                  <span key={i} className={styles.letter} data-letter>
+                    {l}
+                  </span>
+                ))}
               </span>
             ))}
           </span>
-          <span className={styles.script} data-script aria-hidden="true">
-            {profile.lastName}
+          <span className={styles.subtitle} data-script aria-hidden="true">
+            {profile.title}
           </span>
           <span className={styles.line} data-line aria-hidden="true" />
         </button>

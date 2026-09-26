@@ -1,5 +1,7 @@
+import { GraduationCap } from "lucide-react";
 import { Reveal } from "@/components/animation/Reveal";
 import { RevealText } from "@/components/animation/RevealText";
+import { BackgroundIcon } from "@/components/ui/BackgroundIcon";
 import { education } from "@/data/profile";
 import { ScoreRing } from "./ScoreRing";
 import styles from "./Education.module.css";
@@ -7,6 +9,10 @@ import styles from "./Education.module.css";
 export function Education() {
   return (
     <section id="education" className={styles.education} data-accent="blue" aria-label="Education">
+      {/* Giant outlined graduation cap drifting slowly behind the content. */}
+      <BackgroundIcon className={styles.cap}>
+        <GraduationCap />
+      </BackgroundIcon>
       <div className={`container ${styles.layout}`}>
         <p className="eyebrow">Education</p>
 

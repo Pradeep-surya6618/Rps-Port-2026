@@ -622,7 +622,8 @@
     position: relative;
     inset: auto;
     height: calc(min(92vw, 440px) * 1183 / 1083);
-    margin-top: -1.5rem;
+    /* Clear space under the name so the head never runs into "Surya". */
+    margin-top: 1.75rem;
   }
 
   .circleWrap {

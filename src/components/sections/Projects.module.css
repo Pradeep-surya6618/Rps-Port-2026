@@ -260,6 +260,12 @@
 
 .visual {
   display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  text-align: inherit;
+  cursor: pointer;
   border-radius: var(--radius-m);
   transform-style: preserve-3d;
   outline-offset: 8px;

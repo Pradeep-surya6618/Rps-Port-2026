@@ -1,11 +1,20 @@
 .education {
   position: relative;
+  overflow: clip;
   padding: clamp(6rem, 14vh, 10rem) 0;
   background:
     radial-gradient(55% 60% at 38% 35%, rgb(var(--accent-deep-rgb) / 0.75), transparent 70%),
     radial-gradient(40% 45% at 90% 20%, rgb(var(--accent-deep-rgb) / 0.5), transparent 70%),
     #020807;
   border-top: 1px solid rgb(var(--accent-bright-rgb) / 0.08);
+}
+
+/* Background graduation cap (see BackgroundIcon). */
+.cap {
+  right: -6vw;
+  top: 6%;
+  width: min(62vw, 48rem);
+  rotate: -12deg;
 }
 
 .layout {
@@ -381,5 +390,13 @@
     bottom: calc(-2rem + 1px);
     left: calc(1.4rem + 38px - 4px);
     rotate: 135deg;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .cap {
+    top: 2%;
+    right: -18vw;
+    width: 95vw;
   }
 }

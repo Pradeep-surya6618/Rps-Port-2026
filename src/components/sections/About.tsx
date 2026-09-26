@@ -1,6 +1,8 @@
 import Image from "next/image";
 import aboutPhoto from "../../../public/images/15.jpg";
+import { Fingerprint } from "lucide-react";
 import { Parallax } from "@/components/animation/Parallax";
+import { BackgroundIcon } from "@/components/ui/BackgroundIcon";
 import { Reveal } from "@/components/animation/Reveal";
 import { RevealText } from "@/components/animation/RevealText";
 import { about, profile } from "@/data/profile";
@@ -8,7 +10,7 @@ import styles from "./About.module.css";
 
 export function About() {
   return (
-    <section id="about" className={styles.about} data-accent="rose" aria-labelledby="about-title">
+    <section id="about" className={styles.about} data-accent="orange" aria-labelledby="about-title">
       {/* Atmosphere: slow layers behind the copy. */}
       <Parallax speed={0.15} className={styles.orb} aria-hidden />
       <Parallax speed={0.35} className={styles.lines} aria-hidden>
@@ -16,6 +18,9 @@ export function About() {
         <span />
         <span />
       </Parallax>
+      <BackgroundIcon className={styles.bgIcon} speed={0.65}>
+        <Fingerprint />
+      </BackgroundIcon>
       <Parallax speed={0.55} className={styles.ghost} aria-hidden>
         Build
       </Parallax>

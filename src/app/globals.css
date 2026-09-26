@@ -57,6 +57,11 @@ html.intro-active {
   overflow: hidden;
 }
 
+/* No page scroll behind an open modal (e.g. the project screenshot viewer). */
+html:has(dialog[open]) {
+  overflow: hidden;
+}
+
 html.lenis,
 html.lenis body {
   height: auto;
@@ -268,14 +273,14 @@ button {
   --border-strong: rgb(var(--accent-bright-rgb) / 0.35);
 }
 
-[data-accent="rose"] {
-  --accent: #f43f5e;
-  --accent-bright: #fb7185;
-  --accent-rgb: 244 63 94;
-  --accent-bright-rgb: 251 113 133;
-  --accent-deep-rgb: 76 16 30;
-  --accent-soft: #ffd5dc;
-  --accent-dark: #c81e44;
+[data-accent="orange"] {
+  --accent: #f97316;
+  --accent-bright: #fb923c;
+  --accent-rgb: 249 115 22;
+  --accent-bright-rgb: 251 146 60;
+  --accent-deep-rgb: 84 36 8;
+  --accent-soft: #ffe0c7;
+  --accent-dark: #c2560c;
 }
 
 [data-accent="violet"] {

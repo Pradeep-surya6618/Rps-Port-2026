@@ -1,0 +1,167 @@
+/* JARVIS-style HUD. Strokes use the section accent (red) with warm amber
+   highlights; every loop animates transform/opacity only and is paused
+   until the section is on screen ([data-live]). */
+
+.hud {
+  --hud: rgb(var(--accent-bright-rgb));
+  --hud-warm: #ffb86b;
+}
+
+.svg {
+  position: absolute;
+  inset: 11%;
+  width: 78%;
+  height: 78%;
+  overflow: visible;
+}
+
+.spin {
+  transform-box: view-box;
+  transform-origin: 50% 50%;
+  will-change: transform;
+  animation: spin linear infinite;
+  animation-play-state: paused;
+}
+
+.hud[data-live] .spin,
+.hud[data-live] .corePulse,
+.hud[data-live] .blip {
+  animation-play-state: running;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes spinBack {
+  to { transform: rotate(-360deg); }
+}
+
+.slowCw { animation-duration: 90s; }
+.slowCcw { animation-duration: 70s; animation-name: spinBack; }
+.medCw { animation-duration: 26s; }
+.medCcw { animation-duration: 38s; animation-name: spinBack; }
+.fastCw { animation-duration: 14s; }
+.sweep { animation-duration: 5s; }
+
+/* Strokes */
+
+.hair,
+.tick,
+.bright,
+.thick,
+.thickDim,
+.dotted,
+.segments,
+.dashed,
+.mark,
+.coreRing {
+  fill: none;
+}
+
+.hair {
+  stroke: var(--hud);
+  stroke-opacity: 0.22;
+  stroke-width: 1;
+}
+
+.tick {
+  stroke: var(--hud);
+  stroke-opacity: 0.45;
+  stroke-width: 1.2;
+}
+
+.bright {
+  stroke: var(--hud-warm);
+  stroke-opacity: 0.85;
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
+.thick {
+  stroke: var(--hud);
+  stroke-opacity: 0.55;
+  stroke-width: 7;
+}
+
+.thickDim {
+  stroke: var(--hud);
+  stroke-opacity: 0.22;
+  stroke-width: 7;
+}
+
+.dotted {
+  stroke: var(--hud-warm);
+  stroke-opacity: 0.5;
+  stroke-width: 2;
+  stroke-dasharray: 1.5 9;
+  stroke-linecap: round;
+}
+
+.segments {
+  stroke: var(--hud);
+  stroke-opacity: 0.4;
+  stroke-width: 3;
+  stroke-dasharray: 38 12;
+}
+
+.dashed {
+  stroke: var(--hud);
+  stroke-opacity: 0.35;
+  stroke-width: 1.2;
+  stroke-dasharray: 3 5;
+}
+
+.mark {
+  stroke: var(--hud-warm);
+  stroke-width: 2;
+  stroke-linejoin: round;
+}
+
+/* Core */
+
+.corePulse {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: pulse 2.6s ease-in-out infinite alternate;
+  animation-play-state: paused;
+}
+
+@keyframes pulse {
+  from { transform: scale(0.85); opacity: 0.7; }
+  to { transform: scale(1.12); opacity: 1; }
+}
+
+.coreRing {
+  stroke: var(--hud-warm);
+  stroke-width: 1.5;
+  stroke-opacity: 0.9;
+}
+
+.coreDot {
+  fill: #fff4e0;
+}
+
+.blip {
+  fill: var(--hud-warm);
+  opacity: 0;
+  animation: blip 2.4s ease-in-out infinite;
+  animation-play-state: paused;
+}
+
+@keyframes blip {
+  0%, 100% { opacity: 0; }
+  20%, 40% { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spin,
+  .corePulse,
+  .blip {
+    animation: none;
+  }
+
+  .blip {
+    opacity: 0.8;
+  }
+}

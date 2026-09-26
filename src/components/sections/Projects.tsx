@@ -3,6 +3,7 @@ import { RevealText } from "@/components/animation/RevealText";
 import { Reveal } from "@/components/animation/Reveal";
 import { PillLink } from "@/components/ui/PillLink";
 import { projects, type Project } from "@/data/projects";
+import { ProjectLightbox } from "./ProjectLightbox";
 import { ProjectsScene } from "./ProjectsScene";
 import styles from "./Projects.module.css";
 
@@ -33,24 +34,10 @@ function ProjectVisual({ project }: { project: Project }) {
       <div className={styles.board}>{image}</div>
     );
 
-  const label = project.link ? "View project" : "View screens";
-  const href = project.link?.href ?? project.image.src;
-
   return (
-    <a
-      href={href}
-      target="_blank"
-      rel="noopener noreferrer"
-      className={styles.visual}
-      data-cursor="project"
-      data-cursor-label={label}
-      data-pj="visual"
-    >
-      <span className="sr-only">
-        {project.link ? `Open ${project.title} (new tab)` : `Open the ${project.title} screenshot full size (new tab)`}
-      </span>
+    <ProjectLightbox project={project} className={styles.visual}>
       {frame}
-    </a>
+    </ProjectLightbox>
   );
 }
 

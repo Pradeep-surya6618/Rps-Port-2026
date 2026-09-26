@@ -50,6 +50,16 @@
   user-select: none;
 }
 
+/* Background fingerprint, an "identity" mark for the about-me section (see BackgroundIcon). */
+.bgIcon {
+  left: 42%;
+  top: 46%;
+  width: min(62vw, 50rem);
+  margin: calc(min(62vw, 50rem) / -2) 0 0 calc(min(62vw, 50rem) / -2);
+  rotate: -14deg;
+  color: rgb(var(--accent-bright-rgb) / 0.42);
+}
+
 .grid {
   position: relative;
   display: grid;
@@ -244,5 +254,15 @@
 
   .ghost {
     font-size: 40vw;
+  }
+}
+
+@media (max-width: 767.98px) {
+  /* Above the photo on phones, behind the heading. */
+  .bgIcon {
+    top: 2%;
+    left: 60%;
+    width: 110vw;
+    margin: 0 0 0 -55vw;
   }
 }

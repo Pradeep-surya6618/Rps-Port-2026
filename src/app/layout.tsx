@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Mr_Dafoe, Sora } from "next/font/google";
+import { Inter, Mr_Dafoe, Orbitron, Sora } from "next/font/google";
 import { profile } from "@/data/profile";
 import "./globals.css";
 
@@ -13,6 +13,14 @@ const display = Sora({
 const body = Inter({
   subsets: ["latin"],
   variable: "--font-body",
+  display: "swap",
+});
+
+// Wide futuristic face, used only for the name on the loading screen.
+const hud = Orbitron({
+  subsets: ["latin"],
+  weight: ["500", "700", "800"],
+  variable: "--font-hud",
   display: "swap",
 });
 
@@ -78,7 +86,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html
       lang="en"
-      className={`${display.variable} ${body.variable} ${script.variable} intro-active`}
+      className={`${display.variable} ${body.variable} ${script.variable} ${hud.variable} intro-active`}
       suppressHydrationWarning
     >
       {/* Extensions such as Grammarly add attributes to <body> before React
