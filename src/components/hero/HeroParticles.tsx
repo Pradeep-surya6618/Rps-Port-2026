@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { MEDIA } from "@/lib/animations/media";
+import { isLite, LITE_EVENT } from "@/lib/perf";
 
 type Mote = { x: number; y: number; r: number; vx: number; vy: number; a: number; tw: number };
 
@@ -76,13 +77,27 @@ export function HeroParticles() {
       if (visible) raf = requestAnimationFrame(loop);
     };
 
+    // Lite mode (slower machines): no dust at all.
+    if (isLite()) {
+      canvas.style.display = "none";
+      return;
+    }
+
     seed();
     if (reduced) {
       draw();
       return;
     }
 
+    const goLite = () => {
+      visible = false;
+      cancelAnimationFrame(raf);
+      canvas.style.display = "none";
+    };
+    window.addEventListener(LITE_EVENT, goLite);
+
     const io = new IntersectionObserver(([entry]) => {
+      if (isLite()) return;
       visible = entry.isIntersecting;
       cancelAnimationFrame(raf);
       if (visible) raf = requestAnimationFrame(loop);
@@ -95,6 +110,7 @@ export function HeroParticles() {
       io.disconnect();
       cancelAnimationFrame(raf);
       window.removeEventListener("resize", onResize);
+      window.removeEventListener(LITE_EVENT, goLite);
     };
   }, []);
 

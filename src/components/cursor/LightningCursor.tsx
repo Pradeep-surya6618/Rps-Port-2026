@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 import { gsap } from "@/lib/animations/gsap";
 import { FINE_POINTER, MEDIA } from "@/lib/animations/media";
 import { drawGlowingBolt, fitCanvas } from "@/lib/effects/lightning";
+import { isLite, LITE_EVENT } from "@/lib/perf";
 import styles from "./LightningCursor.module.css";
 
 type Strike = { x1: number; y1: number; x2: number; y2: number; life: number; displace: number; branchProb: number };
@@ -40,7 +41,18 @@ export function LightningCursor() {
     let lastY = -1;
     let hovered = false;
     let running = false;
+    // Lite mode (slower machines) keeps the glowing dot but skips the trail.
+    let trail = !isLite();
     const strikes: Strike[] = [];
+    const stopTrail = () => {
+      trail = false;
+      strikes.length = 0;
+    };
+    window.addEventListener(LITE_EVENT, stopTrail);
+
+    // The canvas covers the whole screen; it is only shown while lightning is
+    // being drawn, so it is not a permanent full-screen layer to composite.
+    canvas.style.visibility = "hidden";
 
     const render = () => {
       ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
@@ -60,7 +72,10 @@ export function LightningCursor() {
       }
       // Stop the loop once every bolt has faded; the next move restarts it.
       if (strikes.length) requestAnimationFrame(render);
-      else running = false;
+      else {
+        running = false;
+        canvas.style.visibility = "hidden";
+      }
     };
 
     const onMove = (e: PointerEvent) => {
@@ -74,7 +89,7 @@ export function LightningCursor() {
       xTo(x);
       yTo(y);
 
-      if (Math.hypot(x - lastX, y - lastY) > 8) {
+      if (trail && Math.hypot(x - lastX, y - lastY) > 8) {
         strikes.push({
           x1: lastX,
           y1: lastY,
@@ -88,6 +103,7 @@ export function LightningCursor() {
         lastY = y;
         if (!running) {
           running = true;
+          canvas.style.visibility = "visible";
           requestAnimationFrame(render);
         }
       }
@@ -116,6 +132,7 @@ export function LightningCursor() {
     window.addEventListener("resize", onResize);
 
     return () => {
+      window.removeEventListener(LITE_EVENT, stopTrail);
       html.classList.remove("has-custom-cursor");
       window.removeEventListener("pointermove", onMove);
       document.removeEventListener("pointerover", onOver);

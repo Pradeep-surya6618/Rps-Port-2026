@@ -13,11 +13,13 @@ export function About() {
     <section id="about" className={styles.about} data-accent="orange" aria-labelledby="about-title">
       {/* Atmosphere: slow layers behind the copy. */}
       <Parallax speed={0.15} className={styles.orb} aria-hidden />
-      <Parallax speed={0.35} className={styles.lines} aria-hidden>
+      {/* Static on purpose: moving these three hairlines needed a layer the
+          height of the whole section, costly on slower GPUs for no visible gain. */}
+      <div className={styles.lines} aria-hidden="true">
         <span />
         <span />
         <span />
-      </Parallax>
+      </div>
       <BackgroundIcon className={styles.bgIcon} speed={0.65}>
         <Fingerprint />
       </BackgroundIcon>

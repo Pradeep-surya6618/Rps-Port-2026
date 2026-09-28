@@ -355,6 +355,28 @@ button {
   --accent-dark: #1d5fd6;
 }
 
+/* ─── Lite mode (slower machines; see src/lib/perf.ts) ───
+   Same layout and colours, minus the effects that cost the most on weak GPUs:
+   backdrop blur, the full-screen grain, and looping decorative animations
+   (paused where they are). Scroll-driven GSAP scenes are unaffected. */
+
+html.perf-lite *,
+html.perf-lite *::before,
+html.perf-lite *::after {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+html.perf-lite body::after {
+  display: none;
+}
+
+html.perf-lite main *:not(dialog, dialog *),
+html.perf-lite main *:not(dialog, dialog *)::before,
+html.perf-lite main *:not(dialog, dialog *)::after {
+  animation-play-state: paused !important;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

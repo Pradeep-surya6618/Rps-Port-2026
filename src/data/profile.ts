@@ -9,8 +9,6 @@ export const profile = {
   languages: "Tamil, English",
   email: "pradeepsurya6618@gmail.com",
   cv: "/pdf/PradeepSuryaCV.pdf",
-  siteDescription:
-    "Pradeep Surya is a Full Stack Developer building modern web applications, scalable backend systems and digital products.",
 } as const;
 
 export const about = {

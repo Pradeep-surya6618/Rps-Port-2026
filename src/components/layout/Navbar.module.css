@@ -330,3 +330,19 @@
     display: none !important;
   }
 }
+
+/* Lite mode has no backdrop blur, so the glass bar and menu get more opaque
+   backgrounds to stay readable over the page. */
+:global(html.perf-lite) .scrolled .bar,
+:global(html.perf-lite) .open .bar {
+  background: rgb(5 10 16 / 0.94);
+}
+
+:global(html.perf-lite) .panel {
+  background: rgb(6 10 16 / 0.98);
+}
+
+:global(html.perf-lite) .backdrop {
+  background: rgb(1 3 5 / 0.8);
+}
+

@@ -3,6 +3,7 @@
 import { useRef } from "react";
 import { gsap, useGSAP } from "@/lib/animations/gsap";
 import { FINE_POINTER, MEDIA } from "@/lib/animations/media";
+import { useLite } from "@/lib/useLite";
 import styles from "./Projects.module.css";
 
 /**
@@ -13,6 +14,9 @@ import styles from "./Projects.module.css";
  */
 export function ProjectsScene({ children }: { children: React.ReactNode }) {
   const root = useRef<HTMLDivElement>(null);
+  // Lite mode (slower machines): no inner parallax or scene scaling; the
+  // scenes still stack and dim, and keep their GPU layers (measured faster).
+  const lite = useLite();
 
   useGSAP(
     () => {
@@ -60,7 +64,7 @@ export function ProjectsScene({ children }: { children: React.ReactNode }) {
             // Desktop: layers settle into place at different speeds as the
             // scene arrives. Phones skip this inner parallax: it needs several
             // extra GPU layers per scene, more than mobile browsers can hold.
-            if (big) {
+            if (big && !lite) {
               gsap.fromTo(q("[data-pj='number']"), { yPercent: 40 }, { yPercent: -10, ease: "none", scrollTrigger: enter });
               gsap.fromTo(q("[data-pj='media']"), { yPercent: 18 }, { yPercent: 0, ease: "none", scrollTrigger: enter });
               gsap.fromTo(q("[data-pj='text']"), { y: 140 }, { y: 0, ease: "none", scrollTrigger: enter });
@@ -80,10 +84,10 @@ export function ProjectsScene({ children }: { children: React.ReactNode }) {
             // While the next scene covers this one, push it back into the dark.
             const next = panels[i + 1];
             if (next) {
-              gsap
-                .timeline({ scrollTrigger: { trigger: next, start: "top bottom", end: "top top", scrub: true } })
-                .to(q("[data-pj='scene']"), { scale: big ? 0.9 : 0.92, yPercent: big ? -4 : -2, ease: "none" }, 0)
-                .to(q("[data-pj='dim']"), { opacity: 0.6, ease: "none" }, 0);
+              const cover = gsap.timeline({ scrollTrigger: { trigger: next, start: "top bottom", end: "top top", scrub: true } });
+              // Lite skips scaling the whole scene (costly to redraw on weak GPUs); it still dims.
+              if (!lite) cover.to(q("[data-pj='scene']"), { scale: big ? 0.9 : 0.92, yPercent: big ? -4 : -2, ease: "none" }, 0);
+              cover.to(q("[data-pj='dim']"), { opacity: 0.6, ease: "none" }, 0);
             }
           });
         },
@@ -119,7 +123,7 @@ export function ProjectsScene({ children }: { children: React.ReactNode }) {
         window.removeEventListener("resize", schedule);
       };
     },
-    { scope: root },
+    { scope: root, dependencies: [lite], revertOnUpdate: true },
   );
 
   return (

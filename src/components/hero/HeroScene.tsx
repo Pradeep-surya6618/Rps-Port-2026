@@ -4,6 +4,7 @@ import { useRef } from "react";
 import { gsap, useGSAP } from "@/lib/animations/gsap";
 import { FINE_POINTER, MEDIA } from "@/lib/animations/media";
 import { useSite } from "@/components/providers/SiteProvider";
+import { useLite } from "@/lib/useLite";
 
 type HeroSceneProps = { className?: string; accent?: string; children: React.ReactNode };
 
@@ -17,6 +18,8 @@ type HeroSceneProps = { className?: string; accent?: string; children: React.Rea
 export function HeroScene({ className, accent, children }: HeroSceneProps) {
   const root = useRef<HTMLElement>(null);
   const { introDone } = useSite();
+  // Lite mode (slower machines): no scaling of large layers, no pointer depth, no float.
+  const lite = useLite();
 
   useGSAP(
     () => {
@@ -74,7 +77,7 @@ export function HeroScene({ className, accent, children }: HeroSceneProps) {
           if (!introDone) return;
 
           // Once settled, the portrait floats gently (y, separate from the entrance's yPercent).
-          gsap.to(q("[data-hero-in='portrait']"), {
+          if (!lite) gsap.to(q("[data-hero-in='portrait']"), {
             y: -12,
             duration: 3.4,
             ease: "sine.inOut",
@@ -107,8 +110,8 @@ export function HeroScene({ className, accent, children }: HeroSceneProps) {
               .to(q("[data-hero='veil']"), { opacity: 0.8, duration: 0.35 }, 0.65);
           }
           scroll
-            .to(q("[data-hero='portrait']"), { yPercent: -9 * s, scale: 1 + 0.05 * s, duration: 1 }, 0)
-            .to(q("[data-hero='circle']"), { scale: 1 + 0.9 * s, opacity: 0.35, duration: 1 }, 0)
+            .to(q("[data-hero='portrait']"), { yPercent: -9 * s, scale: lite ? 1 : 1 + 0.05 * s, duration: 1 }, 0)
+            .to(q("[data-hero='circle']"), lite ? { yPercent: -12 * s, opacity: 0.35, duration: 1 } : { scale: 1 + 0.9 * s, opacity: 0.35, duration: 1 }, 0)
             .to(q("[data-ridge='far']"), { yPercent: -8 * s, duration: 1 }, 0)
             .to(q("[data-hero='shapes']"), { xPercent: 14 * s, yPercent: -18 * s, duration: 1 }, 0)
             .to(q("[data-hero='particles']"), { yPercent: -20 * s, duration: 1 }, 0);
@@ -119,7 +122,7 @@ export function HeroScene({ className, accent, children }: HeroSceneProps) {
             .to(q("[data-hero='social'], [data-hero='cue']"), { y: 40, opacity: 0, duration: 0.3 }, 0);
 
           // ── Pointer depth (desktop). ──
-          if (!desktop || !window.matchMedia(FINE_POINTER).matches) return;
+          if (lite || !desktop || !window.matchMedia(FINE_POINTER).matches) return;
           const layers = q("[data-depth]").map((el) => {
             const depth = Number((el as HTMLElement).dataset.depth) || 0;
             return {
@@ -141,7 +144,7 @@ export function HeroScene({ className, accent, children }: HeroSceneProps) {
         },
       );
     },
-    { scope: root, dependencies: [introDone], revertOnUpdate: true },
+    { scope: root, dependencies: [introDone, lite], revertOnUpdate: true },
   );
 
   return (

@@ -1,6 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, Mr_Dafoe, Orbitron, Sora } from "next/font/google";
 import { profile } from "@/data/profile";
+import { personJsonLd, siteDescription, siteKeywords, siteTitle, siteUrl } from "@/lib/site";
+import { perfInitScript } from "@/lib/perf";
 import "./globals.css";
 
 const display = Sora({
@@ -32,48 +34,38 @@ const script = Mr_Dafoe({
   display: "swap",
 });
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
-const title = `${profile.fullName} | ${profile.title}`;
-
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title,
-  description: profile.siteDescription,
-  applicationName: profile.fullName,
-  authors: [{ name: profile.fullName, url: "https://github.com/Pradeep-surya6618" }],
+  title: { default: siteTitle, template: `%s | ${profile.fullName}` },
+  description: siteDescription,
+  applicationName: `${profile.fullName} — Portfolio`,
+  authors: [{ name: profile.fullName, url: siteUrl }],
   creator: profile.fullName,
-  keywords: [
-    "Pradeep Surya",
-    "Full Stack Developer",
-    "Next.js",
-    "React",
-    "NestJS",
-    "Node.js",
-    "MongoDB",
-    "DynamoDB",
-    "Kovilpatti",
-    "Tamil Nadu",
-  ],
+  publisher: profile.fullName,
+  category: "technology",
+  keywords: siteKeywords,
   alternates: { canonical: "/" },
+  formatDetection: { telephone: false, address: false, email: false },
+  // The share image comes from app/opengraph-image.png (and its .alt.txt).
   openGraph: {
-    type: "website",
+    type: "profile",
     url: "/",
-    title,
-    description: profile.siteDescription,
-    siteName: profile.fullName,
+    title: siteTitle,
+    description: siteDescription,
+    siteName: `${profile.fullName} — Portfolio`,
     locale: "en_IN",
-    images: [{ url: "/images/port.png", width: 1609, height: 765, alt: `${profile.fullName}, ${profile.title}` }],
+    firstName: profile.firstName,
+    lastName: profile.lastName,
   },
   twitter: {
     card: "summary_large_image",
-    title,
-    description: profile.siteDescription,
-    images: ["/images/port.png"],
+    title: siteTitle,
+    description: siteDescription,
   },
   robots: {
     index: true,
     follow: true,
-    googleBot: { index: true, follow: true, "max-image-preview": "large" },
+    googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1 },
   },
 };
 
@@ -89,6 +81,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       className={`${display.variable} ${body.variable} ${script.variable} ${hud.variable} intro-active`}
       suppressHydrationWarning
     >
+      <head>
+        {/* Picks the performance tier (full / lite) before the first paint. */}
+        <script dangerouslySetInnerHTML={{ __html: perfInitScript }} />
+      </head>
       {/* Extensions such as Grammarly add attributes to <body> before React
           loads; this ignores those attribute differences on <body> only. */}
       <body suppressHydrationWarning>
@@ -96,6 +92,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <style>{`html.intro-active{overflow:auto}[data-intro]{display:none!important}`}</style>
         </noscript>
         {children}
+        {/* Structured data: tells search engines this site is about a person. */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd()).replace(/</g, "\\u003c") }}
+        />
       </body>
     </html>
   );

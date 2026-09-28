@@ -3,6 +3,7 @@
 import { useRef } from "react";
 import { gsap, useGSAP } from "@/lib/animations/gsap";
 import { FINE_POINTER, MEDIA } from "@/lib/animations/media";
+import { useLite } from "@/lib/useLite";
 
 /**
  * Motion for the Instagram section:
@@ -12,6 +13,8 @@ import { FINE_POINTER, MEDIA } from "@/lib/animations/media";
  */
 export function InstagramScene({ className, children }: { className?: string; children: React.ReactNode }) {
   const root = useRef<HTMLElement>(null);
+  // Lite mode (slower machines): the phone rises without the 3D turn or tilt.
+  const lite = useLite();
 
   useGSAP(
     () => {
@@ -44,10 +47,9 @@ export function InstagramScene({ className, children }: { className?: string; ch
         // The phone swings from a side angle to facing the viewer.
         gsap.fromTo(
           q("[data-ig='phone']"),
-          { rotateY: 24, rotateX: 10, y: 70 },
+          lite ? { y: 70 } : { rotateY: 24, rotateX: 10, y: 70 },
           {
-            rotateY: -10,
-            rotateX: -4,
+            ...(lite ? {} : { rotateY: -10, rotateX: -4 }),
             y: -40,
             ease: "none",
             scrollTrigger: { trigger: el, start: "top bottom", end: "bottom top", scrub: 0.6 },
@@ -66,6 +68,7 @@ export function InstagramScene({ className, children }: { className?: string; ch
       });
 
       mm.add(`${FINE_POINTER} and ${MEDIA.motion}`, () => {
+        if (lite) return;
         const card = q("[data-ig='tilt']")[0] as HTMLElement;
         const stage = q("[data-ig='stage']")[0] as HTMLElement;
         const rx = gsap.quickTo(card, "rotationX", { duration: 0.9, ease: "power3.out" });
@@ -89,7 +92,7 @@ export function InstagramScene({ className, children }: { className?: string; ch
 
       return () => io.disconnect();
     },
-    { scope: root },
+    { scope: root, dependencies: [lite], revertOnUpdate: true },
   );
 
   return (
