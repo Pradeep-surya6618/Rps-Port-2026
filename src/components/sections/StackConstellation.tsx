@@ -38,15 +38,36 @@ export function StackConstellation({ groups, skills, orbit }: Props) {
       const mm = gsap.matchMedia();
       mm.add(MEDIA.motion, () => {
         const q = gsap.utils.selector(stage);
+        const el = stage.current!;
+        const section = el.closest("section")!;
+        // Pin only when the whole network fits on screen; otherwise pinning
+        // would hide part of it, so it just builds as it scrolls through.
+        const pin = el.offsetHeight <= window.innerHeight * 0.92;
+
+        // The network builds with the scroll (so it is never skipped): the
+        // section holds while the core, lines, hubs and skills appear, then
+        // the page moves on.
         const tl = gsap.timeline({
-          scrollTrigger: { trigger: stage.current, start: "top 70%" },
-          defaults: { ease: "power3.out" },
+          defaults: { ease: "power2.out" },
+          scrollTrigger: pin
+            ? {
+                trigger: el,
+                start: "center center",
+                end: "+=110%",
+                pin: section,
+                scrub: 0.6,
+                anticipatePin: 1,
+                invalidateOnRefresh: true,
+              }
+            : { trigger: el, start: "top 85%", end: "center 55%", scrub: 0.6 },
         });
         // Core and hubs are centred with CSS translate, so animate them without transforms.
-        tl.from(q("[data-st='core']"), { opacity: 0, filter: "blur(12px)", duration: 0.9 })
-          .fromTo(q("[data-st='line']"), { strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: 1.2, stagger: 0.03 }, 0.2)
-          .from(q("[data-st='hub']"), { opacity: 0, filter: "blur(8px)", duration: 0.8, stagger: 0.1 }, 0.35)
-          .from(q("[data-st='skill'] > span"), { scale: 0.5, opacity: 0, duration: 0.7, stagger: 0.04 }, 0.6);
+        tl.from(q("[data-st='core']"), { opacity: 0, filter: "blur(12px)", duration: 0.5 })
+          .fromTo(q("[data-st='line']"), { strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: 1, stagger: 0.02 }, 0.2)
+          .from(q("[data-st='hub']"), { opacity: 0, filter: "blur(8px)", duration: 0.5, stagger: 0.12 }, 0.45)
+          .from(q("[data-st='skill'] > span"), { scale: 0.5, opacity: 0, duration: 0.45, stagger: 0.05 }, 0.8)
+          // A short hold at the end so the finished network is seen before moving on.
+          .to({}, { duration: 0.4 });
       });
     },
     { scope: stage },

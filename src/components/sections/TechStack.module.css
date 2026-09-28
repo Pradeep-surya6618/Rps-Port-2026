@@ -10,11 +10,11 @@
 
 /* Background "stack of layers" icon (see BackgroundIcon). */
 .bgIcon {
-  left: 50%;
-  top: 55%;
-  width: min(80vw, 62rem);
-  margin: calc(min(80vw, 62rem) / -2) 0 0 calc(min(80vw, 62rem) / -2);
-  color: rgb(var(--accent-bright-rgb) / 0.2);
+  right: -14vw;
+  top: 30%;
+  width: min(44vw, 36rem);
+  rotate: 12deg;
+  color: rgb(var(--accent-bright-rgb) / 0.22);
 }
 
 .head {
@@ -308,8 +308,9 @@
 
 @media (max-width: 767.98px) {
   .bgIcon {
-    width: 120vw;
-    margin: -60vw 0 0 -60vw;
+    right: -34vw;
+    top: 30%;
+    width: 80vw;
     color: rgb(var(--accent-bright-rgb) / 0.26);
   }
 }
