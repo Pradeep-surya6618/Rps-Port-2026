@@ -8,8 +8,8 @@ import styles from "./Projects.module.css";
 /**
  * Each project is a full-viewport scene. The scenes are CSS-sticky at every
  * width, so each panel slides over the last while the previous one recedes;
- * inside a scene the backdrop, number, text and screenshot all travel at
- * different speeds (gentler on small screens).
+ * on desktop the number, text and screenshot inside a scene also travel at
+ * different speeds. GPU layers are only promoted for panels near the view.
  */
 export function ProjectsScene({ children }: { children: React.ReactNode }) {
   const root = useRef<HTMLDivElement>(null);
@@ -19,6 +19,32 @@ export function ProjectsScene({ children }: { children: React.ReactNode }) {
       const mm = gsap.matchMedia();
       const panels = gsap.utils.toArray<HTMLElement>("[data-pj='panel']", root.current);
 
+      // Panels are sticky, so earlier ones stay "on screen" underneath later
+      // ones. Track the current scene by position instead: it and its
+      // neighbours get GPU layers ([data-near]); scenes two or more behind are
+      // fully covered and are not drawn at all ([data-covered]).
+      let frame = 0;
+      let last = -2;
+      const mark = () => {
+        frame = 0;
+        let current = 0;
+        panels.forEach((p, i) => {
+          if (p.getBoundingClientRect().top <= 1) current = i;
+        });
+        if (current === last) return;
+        last = current;
+        panels.forEach((p, i) => {
+          p.toggleAttribute("data-near", Math.abs(i - current) <= 1);
+          p.toggleAttribute("data-covered", i < current - 1);
+        });
+      };
+      const schedule = () => {
+        if (!frame) frame = requestAnimationFrame(mark);
+      };
+      mark();
+      window.addEventListener("scroll", schedule, { passive: true });
+      window.addEventListener("resize", schedule);
+
       mm.add(
         {
           big: "(min-width: 900px) and (prefers-reduced-motion: no-preference)",
@@ -26,17 +52,21 @@ export function ProjectsScene({ children }: { children: React.ReactNode }) {
         },
         (ctx) => {
           const { big } = ctx.conditions as { big: boolean };
-          const s = big ? 1 : 0.4;
 
           panels.forEach((panel, i) => {
             const q = gsap.utils.selector(panel);
             const enter = { trigger: panel, start: "top bottom", end: "top top", scrub: 0.6 };
 
-            // Layers settle into place as the scene arrives.
-            gsap.fromTo(q("[data-pj='number']"), { yPercent: 40 * s }, { yPercent: -10 * s, ease: "none", scrollTrigger: enter });
-            gsap.fromTo(q("[data-pj='media']"), { yPercent: 18 * s }, { yPercent: 0, ease: "none", scrollTrigger: enter });
-            gsap.fromTo(q("[data-pj='text']"), { y: 140 * s }, { y: 0, ease: "none", scrollTrigger: enter });
-            gsap.fromTo(q("[data-pj='backdrop']"), { opacity: 0.5, scale: 1.2 }, { opacity: 1, scale: 1, ease: "none", scrollTrigger: enter });
+            // Desktop: layers settle into place at different speeds as the
+            // scene arrives. Phones skip this inner parallax: it needs several
+            // extra GPU layers per scene, more than mobile browsers can hold.
+            if (big) {
+              gsap.fromTo(q("[data-pj='number']"), { yPercent: 40 }, { yPercent: -10, ease: "none", scrollTrigger: enter });
+              gsap.fromTo(q("[data-pj='media']"), { yPercent: 18 }, { yPercent: 0, ease: "none", scrollTrigger: enter });
+              gsap.fromTo(q("[data-pj='text']"), { y: 140 }, { y: 0, ease: "none", scrollTrigger: enter });
+            }
+            // The large backdrop gradient stays still: animating it (scale or
+            // opacity) forced a full-screen repaint on every scroll frame.
 
             gsap.from(q("[data-pj='tag']"), {
               y: 16,
@@ -82,6 +112,12 @@ export function ProjectsScene({ children }: { children: React.ReactNode }) {
         });
         return () => cleanups.forEach((fn) => fn());
       });
+
+      return () => {
+        cancelAnimationFrame(frame);
+        window.removeEventListener("scroll", schedule);
+        window.removeEventListener("resize", schedule);
+      };
     },
     { scope: root },
   );
