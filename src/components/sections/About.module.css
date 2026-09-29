@@ -266,3 +266,10 @@
     margin: 0 0 0 -55vw;
   }
 }
+
+/* Phones: tighter vertical rhythm between sections. */
+@media (max-width: 767.98px) {
+  .about {
+    padding: 3.5rem 0 4rem;
+  }
+}

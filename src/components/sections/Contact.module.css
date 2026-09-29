@@ -494,3 +494,10 @@
     font-size: 0.66rem;
   }
 }
+
+/* Phones: tighter vertical rhythm between sections. */
+@media (max-width: 767.98px) {
+  .contact {
+    padding: 4.5rem 0 3.5rem;
+  }
+}

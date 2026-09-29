@@ -400,3 +400,10 @@
     width: 95vw;
   }
 }
+
+/* Phones: tighter vertical rhythm between sections. */
+@media (max-width: 767.98px) {
+  .education {
+    padding-block: 4rem;
+  }
+}

@@ -558,3 +558,10 @@
   border-color: transparent;
   box-shadow: 0 0 32px rgb(214 41 118 / 0.45);
 }
+
+/* Phones: tighter vertical rhythm between sections. */
+@media (max-width: 767.98px) {
+  .instagram {
+    padding-top: 4rem;
+  }
+}

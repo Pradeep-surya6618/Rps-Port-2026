@@ -263,3 +263,10 @@
     font-size: 0.6rem;
   }
 }
+
+/* Phones: tighter vertical rhythm between sections. */
+@media (max-width: 767.98px) {
+  .experience {
+    padding-block: 4rem;
+  }
+}

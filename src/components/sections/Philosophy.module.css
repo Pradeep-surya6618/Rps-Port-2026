@@ -90,16 +90,6 @@
   line-height: 1.6;
 }
 
-@media (max-width: 767.98px) {
-  .philosophy {
-    height: 180vh;
-  }
-
-  .words {
-    font-size: 12.5vw;
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
   .philosophy {
     height: auto;
@@ -109,5 +99,35 @@
     position: relative;
     height: auto;
     padding-block: 8rem;
+  }
+}
+
+/* Phones: no sticky stage (it left half a screen empty around the words).
+   The section hugs its content and animates as it scrolls past. */
+@media (max-width: 767.98px) {
+  .philosophy {
+    height: auto;
+  }
+
+  .sticky {
+    position: relative;
+    height: auto;
+    padding-block: 3rem;
+  }
+
+  /* Small enough to fade out inside the shorter box. */
+  .glow {
+    width: 90vw;
+    left: calc(50% - 45vw);
+    top: calc(50% - 45vw);
+  }
+
+  .glyph {
+    top: 0;
+    right: 5vw;
+  }
+
+  .words {
+    font-size: 12.5vw;
   }
 }

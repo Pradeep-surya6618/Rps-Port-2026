@@ -314,3 +314,10 @@
     color: rgb(var(--accent-bright-rgb) / 0.26);
   }
 }
+
+/* Phones: tighter vertical rhythm between sections. */
+@media (max-width: 767.98px) {
+  .stack {
+    padding-block: 4rem;
+  }
+}
